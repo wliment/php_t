@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<head>
+<script type="text/javascript" src="jquery-1.6.4.min.js" charset="utf-8"> </script>
+<script type="text/javascript" src="jquery.tmpl.js" charset="utf-8"> </script>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>test</title>
+ <style type="text/css" media="screen">
+ </style> 
+</head>
+<html>
+<body>
+
+<script id="movieTemplate" type="text/x-jquery-tmpl">
+
+  <div class ="tweets" id= "tweets_wrap_${id}" ?>
+              <div class="tweets_content_box">
+                   <div class="tweets_user_icon"> 
+                     <img  height="48" width="48" src= ${icon} ></img>
+                   </div> 
+
+
+                  <div class="tweets_content">
+                          <div class="tweets_row"> 
+                            <span class="tweets_username"> ${username} </span>
+                            <span class="tweets_fullname"> ${fullname} </span>
+                          </div>  
+                          <div class="tweets_row"> 
+                             ${twitte} <br> 
+                          </div>  
+                          <div class="tweets_row tweets_follow_row" > 
+                          </div>  
+
+                    </div>
+              </div>
+        </div>
+</script>
+<script type="text/javascript">
+
+	var movies = [
+		{ Name: "The Red Violin", ReleaseYear: "1998" },
+		{ Name: "Eyes Wide Shut", ReleaseYear: "1999" },
+		{ Name: "The Inheritance", ReleaseYear: "1976" }
+	];
+  var tweets =  [{"0":"2","id":"2","1":"be happy, be fun, be happiness","twitte":"be happy, be fun, be happiness","2":"1","user_id":"1","3":"wliment","username":"wliment","4":"\u90d1\u6d9b","fullname":"\u90d1\u6d9b","5":"php_twitter_photo\/icon\/1.jpg","icon":"php_twitter_photo\/icon\/1.jpg"},{"0":"6","id":"6","1":"\u5988\u5988\u4f1a\u5e26\u56de\u6765\u597d\u5403\u7684\u5427!","twitte":"\u5988\u5988\u4f1a\u5e26\u56de\u6765\u597d\u5403\u7684\u5427!","2":"3","user_id":"3","3":"zheng","username":"zheng","4":"\u5c0f\u72d0\u72f8","fullname":"\u5c0f\u72d0\u72f8","5":"php_twitter_photo\/icon\/3.jpeg","icon":"php_twitter_photo\/icon\/3.jpeg"}]
+
+	$( "#movieTemplate" ).tmpl( tweets )
+		.appendTo( "#movieList" );
+
+</script>
+
+</body>
+</html>
+
+
