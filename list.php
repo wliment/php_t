@@ -1,3 +1,6 @@
+/*
+ *生成全部用户的微薄列表
+ */
 <?php 
 
 //echo "php for twitter"

@@ -1,0 +1,10 @@
+log/*.log
+log/*.pid
+*.ini
+*.jpeg
+*.jpg
+*.gif
+*.png
+*.png
+*.swp
+.sass-cache/
