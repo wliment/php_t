@@ -1,0 +1,13 @@
+.bundle
+db/*.sqlite3
+log/*.log
+log/*.pid
+tmp/**/*
+*.ini
+*.jpeg
+*.swp
+*.jpg
+*.gif
+*.png
+*.png
+.sass-cache/
