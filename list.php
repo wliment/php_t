@@ -1,12 +1,11 @@
+
+<?php require "mysql_con.php"  ?>
+<?php 
+
 /*
  *生成全部用户的微薄列表
  */
-<?php 
 
-//echo "php for twitter"
-session_start();
-$con = mysql_connect("localhost","root","wukong");
-mysql_select_db("php_twitter",$con);
 /*$sql = "select tweets,user_id,username from tweets";*/
 $sql = "select tweets.id,twitte,user_id,username,fullname,icon from tweets,user_tables where tweets.user_id = user_tables.id";
 

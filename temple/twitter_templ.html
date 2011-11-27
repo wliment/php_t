@@ -1,0 +1,27 @@
+<script id="template-new-tweets-bar" type="text/x-text-query-tmpl">
+  <div id="new-tweets-bar" >${tweets_count}</div>
+</script>
+
+<script id="movieTemplate" type="text/x-text-jquery-tmpl">
+  <div class ="tweets" id= "tweets_wrap_${id}" data-tweet-id=${id}>
+              <div class="tweets_content_box">
+                   <div class="tweets_user_icon"> 
+                     <img  height="48" width="48" src= ${icon} ></img>
+                   </div> 
+
+
+                  <div class="tweets_content">
+                          <div class="tweets_row"> 
+                            <span class="tweets_username"> ${username} </span>
+                            <span class="tweets_fullname"> ${fullname} </span>
+                          </div>  
+                          <div class="tweets_row"> 
+                             ${twitte} <br> 
+                          </div>  
+                          <div class="tweets_row tweets_follow_row" > 
+                          </div>  
+
+                    </div>
+              </div>
+        </div>
+</script>
