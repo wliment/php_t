@@ -1,6 +1,6 @@
 <?require "list.php"?>
 <?  require "function.php" ?>
-<?php require "temple/twitter_templ.html" ?>
+
 
 <html>
 <head>
@@ -15,8 +15,7 @@
   
 </head>
 <body>
-
-
+<?php require "temple/twitter_templ.html" ?>
 <? if(isset($_SESSION["email"])) { ?> 
 <?  echo "dsf" ?>
 <div id="wrap-bar">
@@ -90,3 +89,6 @@
 </body>
 
 </html>
+<script>
+  </script>
+
