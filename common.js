@@ -22,34 +22,55 @@ $(document).ready(function(){
     pt.have_update_tweets=0;//已经更新但是还未显示到列表的条目
     pt.update_tweets_data=[];//后台更新的微薄数据
     pt.lastest_update_count = 0;//上一次更新的数据
-    
-    pt.get_tweets = function(){ //返回微薄原始json数据
-      $.getJSON("/php_twitter/home_timeline.php","from_id="+this.lastest_tweet_id,function(data){
-      var length = data.length;
+   
 
+
+
+    pt.get_tweets = function(){ //返回微薄原始json数据
+      alert(3);
+
+      $.ajaxSetup({
+         async: false
+      });
+//after  
+$.ajax( {  
+  url: "/php_twitter/home_timeline.php",  
+  dataType: 'json',  
+  data: "from_id="+pt.lastest_tweet_id,  
+  async: false,  
+  success: function(data){  
+                  //success code  
+                  //
+      var length = data.length;
+    
       if(length == 0 )
         return;
       else
       {
-       this.update_tweets_data = data.concat(pt.update_tweets_data); //将更新的数据和还没有显示的数据合并在一起
-       this.all_twitter_count += data.length; //本次总共更新了多少条
-       this.have_update_tweets += data.length; //更新未显示的微薄条目数量
-       this.lastest_tweet_id = data[0].id;
+       pt.update_tweets_data = data.concat(pt.update_tweets_data); //将更新的数据和还没有显示的数据合并在一起
+       pt.all_twitter_count += data.length; //本次总共更新了多少条
+       pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
+       pt.lastest_tweet_id = data[0].id;
+       alert(1);
       }
-      })
+               }  
+   });  
     }
 
-pt.tweets_data=pt.get_tweets(); //初始化微薄列表
+
 
 
 
     pt.render_tweets = function()  //定时从服务器取微薄json条目数据然后在页面上渲染
   {
-    this.get_tweets();//先更新微薄数据 
-    if(this.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
+    pt.get_tweets();//先更新微薄数据 
+
+       alert(2);
+ $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast");
+    if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
       return
 
-    var tweets_count_str = {tweets_count: this.have_update_tweets + " 条新信息" };
+    var tweets_count_str = {tweets_count: pt.have_update_tweets + " 条新信息" };
 
     //判断是否已经有一个tweets_bar 在页面上，有直接更新上面的信息，否则创建一个
     var tweets_bar = $("#new-tweets-bar");
@@ -62,6 +83,8 @@ pt.tweets_data=pt.get_tweets(); //初始化微薄列表
     }
 
     }
+pt.render_tweets(); //初始化微薄列表
+
 
 
 
@@ -76,7 +99,7 @@ pt.tweets_data=pt.get_tweets(); //初始化微薄列表
 
     });
 
-  setInterval("pt.render_tweets()", 5000);
+ // setInterval("pt.render_tweets()", 5000);
 
 
 
