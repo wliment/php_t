@@ -22,12 +22,12 @@ $(document).ready(function(){
     pt.have_update_tweets=0;//已经更新但是还未显示到列表的条目
     pt.update_tweets_data=[];//后台更新的微薄数据
     pt.lastest_update_count = 0;//上一次更新的数据
+    pt.pages={};
    
 
 
 
     pt.get_tweets = function(){ //返回微薄原始json数据
-      alert(3);
 
       $.ajaxSetup({
          async: false
@@ -51,7 +51,6 @@ $.ajax( {
        pt.all_twitter_count += data.length; //本次总共更新了多少条
        pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
        pt.lastest_tweet_id = data[0].id;
-       alert(1);
       }
                }  
    });  
@@ -65,7 +64,6 @@ $.ajax( {
   {
     pt.get_tweets();//先更新微薄数据 
 
-       alert(2);
  $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast");
     if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
       return
@@ -134,11 +132,15 @@ pt.render_tweets(); //初始化微薄列表
     switch (location.hash)
     { 
     case "": 
-      $("#twitter_con").load("/php_twitter/index.php #twitter_list")
+      //$("#twitter_con").load("/php_twitter/index.php #twitter_list")
+      pt.pages["home"].appendTo("#twitter_con");
+       
         break;
 
     case "#who_to_follow":
-      $("#twitter_list").load("/php_twitter/who_to_follow.php#user_item-list")
+      /*$("#twitter_list").load("/php_twitter/who_to_follow.php#user_item-list")*/
+        pt.pages["home"] = $("#twitter_list").detach();
+       $("#twitter_list").load("/php_twitter/who_to_follow.php#user_item-list")
         break;
     }
   };
