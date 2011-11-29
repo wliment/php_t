@@ -17,44 +17,73 @@ $(document).ready(function(){
 
 
     pt={};  //pt 代表php_twitter
+
+    //微薄条目相关属性
     pt.lastest_tweet_id = 0;//当前用户最近更新的twitter_id
     pt.all_twitter_count=0; //已经更新的用户微薄总数 
     pt.have_update_tweets=0;//已经更新但是还未显示到列表的条目
     pt.update_tweets_data=[];//后台更新的微薄数据
     pt.lastest_update_count = 0;//上一次更新的数据
-    pt.pages={};
-   
 
+
+    //用户条目相关属性
+    pt.all_user_count = 0;   //用户总数量
+    pt.user_data = []; //用户条目数据
+    //页面属性
+    pt.pages={};
+    pt.pages["bb"]= $("<div id ='user_item_list'></div>") ;
+   
+    pt.get_users_render = function(){  //得到用户列表，并渲染
+      $.ajax( {  
+        url: "/php_twitter/who_to_follow.php",  
+        dataType: 'json',  
+        async: false,  
+        success: function(data){  
+          //success code  
+          //
+          var length = data.length;
+
+          if(length == 0 )
+        return;
+          else
+      {
+        pt.all_user_count = data.length;
+        pt.user_data = data.concat(pt.user_data);
+      $("#userTemplate").tmpl(pt.user_data).hide().prependTo("#user_item_list").show("fast");
+
+
+      }
+        }  
+      });  
+
+    }
 
 
     pt.get_tweets = function(){ //返回微薄原始json数据
 
-      $.ajaxSetup({
-         async: false
-      });
-//after  
-$.ajax( {  
-  url: "/php_twitter/home_timeline.php",  
-  dataType: 'json',  
-  data: "from_id="+pt.lastest_tweet_id,  
-  async: false,  
-  success: function(data){  
-                  //success code  
-                  //
-      var length = data.length;
-    
-      if(length == 0 )
-        return;
-      else
-      {
-       pt.update_tweets_data = data.concat(pt.update_tweets_data); //将更新的数据和还没有显示的数据合并在一起
-       pt.all_twitter_count += data.length; //本次总共更新了多少条
-       pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
-       pt.lastest_tweet_id = data[0].id;
-      }
-               }  
-   });  
+        $.ajax( {  
+          url: "/php_twitter/home_timeline.php",  
+          dataType: 'json',  
+          data: "from_id="+pt.lastest_tweet_id,  
+          async: false,  
+          success: function(data){  
+                          //success code  
+                          //
+              var length = data.length;
+
+              if(length == 0 )
+                return;
+              else
+              {
+               pt.update_tweets_data = data.concat(pt.update_tweets_data); //将更新的数据和还没有显示的数据合并在一起
+               pt.all_twitter_count += data.length; //本次总共更新了多少条
+               pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
+               pt.lastest_tweet_id = data[0].id;
+              }
+                   }  
+           });  
     }
+
 
 
 
@@ -64,7 +93,7 @@ $.ajax( {
   {
     pt.get_tweets();//先更新微薄数据 
 
- $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast");
+   $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast");
     if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
       return
 
@@ -132,15 +161,14 @@ pt.render_tweets(); //初始化微薄列表
     switch (location.hash)
     { 
     case "": 
-      //$("#twitter_con").load("/php_twitter/index.php #twitter_list")
+      pt.pages["who_to_follow"] = $("#user-item-list").detach(); 
       pt.pages["home"].appendTo("#twitter_con");
-       
         break;
 
     case "#who_to_follow":
-      /*$("#twitter_list").load("/php_twitter/who_to_follow.php#user_item-list")*/
         pt.pages["home"] = $("#twitter_list").detach();
-       $("#twitter_list").load("/php_twitter/who_to_follow.php#user_item-list")
+        pt.pages["bb"].appendTo("#twitter_con");
+        pt.get_users_render();
         break;
     }
   };

@@ -26,3 +26,29 @@
         </div>
 </script>
 
+
+<!--用户条目模板-->
+<script id="userTemplate" type="text/x-text-jquery-tmpl">
+  <div class ="users" id= "user_wrap_${id}" data-user-id=${id}>
+              <div class="user_content_box">
+                   <div class="user_icon"> 
+                     <img  height="48" width="48" src= ${icon} ></img>
+                   </div> 
+
+
+                  <div class="user_content">
+                          <div class="user_name"> 
+                            <span class="user_username"> ${username} </span>
+                            <span class="user_fullname"> ${fullname} </span>
+                          </div>  
+                          <div class="user_description"> 
+                             ${user_desc} <br> 
+                          </div>  
+                          <div class="tweets_row tweets_follow_row" > 
+                          </div>  
+
+                    </div>
+              </div>
+        </div>
+</script>
+
