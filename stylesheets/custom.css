@@ -191,7 +191,7 @@ max-height: 350px;
   width:540px;
   min-height: 282px;
   /*height:150px;*/
-  background-color:#555555;
+  background-color:white;
  -moz-border-radius:   5px; 
  -webkit-border-radius:   5px;   
   border:   1px   solid   #000;
@@ -574,4 +574,148 @@ color: #999;
 display: block;
 float:left;
 }
+.button:focus {
+  outline: none;
+}
+.tweet-button {
+  font-weight: 300;font - size: 15px;padding: 6px 9px;
+}
+.button:hover,.button:focus {
+background-position:0 -6px;
+color:#000;
+text-decoration:none;
+border-color:#999 #999 #666;
+}
 
+.button:active {
+background-image:none;
+text-shadow:none;
+outline:none;
+}
+
+
+/*follow-button */
+.stream-user-buttons {
+float: right;
+position: relative;
+padding-left: 1em;
+}
+
+.stream-user-buttons .button {
+margin-left: 2px;
+}
+.profile-unfollow-link:active, .unfollow-button:active {
+background-image: none;
+background-color: #C63738;
+}
+.unfollow-button, .profile-unfollow-link, .unfollow-list-button, .just-followed .profile-unfollow-link:hover {
+background-color: #00AE3E;
+background-image: url(/php_twitter/bg-btn-follow.png);
+background-position: 0 0;
+background-repeat: repeat-x;
+border-color: #393 #393 #277827;
+color: white!important;
+text-shadow: -1px -1px 0 #272;
+}
+
+.unfollow-button:hover, .profile-unfollow-link:hover, .unfollow-button:focus {
+background-color: #C63738;
+background-image: url(/php_twitter/bg-btn-follow.png);
+background-position: 0 -68px;
+background-repeat: repeat-x;
+border-color: #A33 #A33 #962C2C;
+color: white;
+}
+.unfollow-button:hover .you-follow {
+ background-position: -272px -96px;
+ width: 12px;height: 12px;
+ margin-left: 1px;
+ margin-right: 2px;
+}
+.button .you-follow {
+width: 15px;
+height: 12px;
+margin-top: 0;
+margin-bottom: 1px;
+background-position: -288px -96px;
+}
+.button span {
+background-image: url(/php_twitter/sprite-icons.png);
+background-repeat: no-repeat;
+display: inline-block;
+vertical-align: bottom;
+height: 13px;
+outline: medium none;
+overflow: hidden;
+width: 13px;
+margin-bottom: 2px;
+}
+.stream-user-buttons .unfollow-button em b.unfollow {
+position: absolute;
+visibility: hidden;
+}
+.stream-user-buttons .unfollow-button em b {
+position: static;
+}
+.stream-user-buttons .unfollow-button em b {
+
+position: static;
+}
+b, strong {
+font-weight: bold;
+}
+.button .plus {
+width: 14px;
+height: 14px;
+background-position: -64px -16px;
+top: -1px;
+margin-right: 1px;
+margin-bottom: 0;
+position: relative;
+}
+.stream-user-buttons {
+float:right;
+position:relative;
+padding-left:1em;
+}
+
+.stream-user-buttons .button {
+margin-left:2px;
+}
+
+.stream-user-buttons .unfollow-button em.wrapper {
+text-shadow:none;
+font-style:normal;
+padding:0 5px;
+}
+
+.stream-user-buttons .unfollow-button em b {
+position:static;
+}
+
+.stream-user-buttons .unfollow-button em b.unfollow {
+position:absolute;
+visibility:hidden;
+}
+
+.stream-user-buttons .unfollow-button:hover em b {
+visibility:hidden;
+}
+
+.stream-user-buttons .unfollow-button:hover em b.unfollow {
+visibility:visible;
+}
+.stream-user-buttons .unfollow-button em.wrapper {
+text-shadow: none;
+font-style: normal;
+padding: 0 5px;
+}
+.stream-user-buttons .button .down-arrow {
+margin-left:0;
+}
+
+.stream-user-buttons div.dismiss {
+text-align:right;
+display:none;
+margin:1px 2px 0 0;
+}

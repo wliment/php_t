@@ -23,11 +23,12 @@
 
                     </div>
               </div>
-        </div>
+            </div>
+
 </script>
 
 
-<!--用户列表模板-->
+<!--用户列表模板aaaa-->
 <script id="userTemplate" type="text/x-text-jquery-tmpl">
   <div class ="users" id= "user_wrap_${id}" data-user-id=${id}>
               <div class="user_content_box">
@@ -48,6 +49,13 @@
                           </div>  
 
                     </div>
+
+              <div class="stream-user-buttons"> <!--用户关注按钮--> 
+                <div class="button js-action-follow js-button follow-button" data-user-id=${id}>
+                <span class="plus"></span>
+                <b>Follow</b>
+              </div>
+            </div>
               </div>
         </div>
 </script>

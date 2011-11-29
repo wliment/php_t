@@ -1,6 +1,8 @@
 
                <div id = "twitter_con">
 
+
+
                       <div class="tweet-box">
                             <div class="tweet-box-title">
                             <h2>What’s happening?</h2>
@@ -15,9 +17,10 @@
               </div>
                       </div>
                       </div>
+
                <div id="twitter_list" tweets_count = <?=count($tweets_arr) ?>>
 
-
+     </script>
 
 
 

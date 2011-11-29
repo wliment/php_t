@@ -264,7 +264,24 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器
 
       } 
     }); 
-
     event.preventDefault();
   });
+
+
+
+
+//关注用户按钮,因为div是动态生成，普通的绑定无法生效
+ $("body").delegate(".js-action-follow", "click", function(){ 
+$(this).removeClass("follow-button");
+$(this).addClass("unfollow-button");
+$(this).find("span").removeClass("plus");
+$(this).find("span").addClass("you-follow");
+$(this).find("b").remove(); 
+$('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo($(this));
+
+});  
+
+
+
+
 });
