@@ -31,6 +31,9 @@ $(document).ready(function(){
     pt.user_data = []; //用户条目数据
     //页面属性
     pt.pages={};
+    pt.pages["is_render"]={};
+    pt.pages["is_render"]["who_to_follow"]= false;
+    pt.pages["is_render"]["home"]= false;
     pt.pages["bb"]= $("<div id ='user_item_list'></div>") ;
    
     pt.get_users_render = function(){  //得到用户列表，并渲染
@@ -50,8 +53,6 @@ $(document).ready(function(){
         pt.all_user_count = data.length;
         pt.user_data = data.concat(pt.user_data);
       $("#userTemplate").tmpl(pt.user_data).hide().prependTo("#user_item_list").show("fast");
-
-
       }
         }  
       });  
@@ -161,14 +162,19 @@ pt.render_tweets(); //初始化微薄列表
     switch (location.hash)
     { 
     case "": 
-      pt.pages["who_to_follow"] = $("#user-item-list").detach(); 
+      pt.pages["who_to_follow"] = $("#user_item_list").detach(); 
       pt.pages["home"].appendTo("#twitter_con");
         break;
 
     case "#who_to_follow":
         pt.pages["home"] = $("#twitter_list").detach();
         pt.pages["bb"].appendTo("#twitter_con");
-        pt.get_users_render();
+
+        if( pt.pages["is_render"]["who_to_follow"]== false )  /*页面没有渲染过的话，执行渲染*/ 
+        {
+          pt.get_users_render();
+          pt.pages["is_render"]["who_to_follow"]= true;
+        }
         break;
     }
   };
@@ -272,15 +278,51 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器
 
 //关注用户按钮,因为div是动态生成，普通的绑定无法生效
  $("body").delegate(".js-action-follow", "click", function(){ 
-$(this).removeClass("follow-button");
-$(this).addClass("unfollow-button");
-$(this).find("span").removeClass("plus");
-$(this).find("span").addClass("you-follow");
-$(this).find("b").remove(); 
-$('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo($(this));
+//$(this).removeClass("follow-button");
+//$(this).addClass("unfollow-button");
+var status;
+var user_id = $(this).attr("data-user-id");
+var action = ($(this).is(".follow-button")) ? "follow":"unfollow";
+var that = $(this);
+$.ajax({
+  url:"/php_twitter/user_follow.php", 
+  data:"action="+action+"&user_id="+user_id,
+  dataType:"json",
+           success:function(data){
+                     status =  data.code; 
 
-});  
+                     $(that).toggleClass("follow-button");
+                     $(that).toggleClass("unfollow-button");
+                     $(that).find("span").toggleClass("plus");
 
+                     $(that).find("span").toggleClass("you-follow");
+                     if($(that).find(".you-follow").length == 1)
+                    {
+                      $(that).find("b").remove(); 
+                      $('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo($(that));
+                    }
+                    else
+                    {
+                      $(that).find(".wrapper").remove();
+                      $('<b>关注</b>').appendTo($(that));
+                    }
+
+                  }
+   })
+ 
+ });  
+
+
+
+ //关注莫用户
+ function follow_user(user_id){
+ }
+
+
+ //取消关注某用户
+ function unfollow_user(user_id){
+
+ }
 
 
 

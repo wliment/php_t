@@ -1,17 +1,11 @@
-
 <?php
 
-function if_follow($follow_user_name)
+function if_follow($follow_user_id)
 {
-  $con = mysql_connect("localhost","root","wukong");
-  mysql_select_db("php_twitter",$con);
-  $sql = "select id from user_tables where username = '".$follow_user_name."'";
-  $query = mysql_query($sql);
-  $follow_user_id = mysql_fetch_array($query); 
 if(isset($_SESSION["id"]))
 {
   $user_id = $_SESSION["id"];
-  $sql = "select count(*) as cc from follow_tables where user_id = '".$user_id."' and  follow_user_id ='" .$follow_user_id["id"]."'";
+  $sql = "select count(*) as cc from follow_tables where user_id = '".$user_id."' and  follow_user_id ='" .$follow_user_id."'";
 
   $query = mysql_query($sql);
   $fav =mysql_fetch_array($query);
@@ -19,19 +13,64 @@ if(isset($_SESSION["id"]))
 
   if($fav["cc"] >= 1)
   {
-    return true;
+    return 1;
   }
   else 
 {
-  return false;
+  return 0;
   }
 }
 }
 
-function show_user_info($username){
+function follow_user($follow_user_id)  //关注某个用户
+{
+  $user_id = $_SESSION["id"];
+  $follow_user_id = $_REQUEST["user_id"]; 
 
-  $con = mysql_connect("localhost","root","wukong");
-  mysql_select_db("php_twitter",$con);
+  /*检查此用户是否已经关注过此对象*/
+  if(if_follow($follow_user_id)) //查看用户是否已经关注过此用户
+  {
+    $return_var["code"]=0;
+  }
+  else 
+  {
+    $sql = "insert into follow_tables(user_id,follow_user_id)  values('".$user_id."','".$follow_user_id."')";
+    mysql_query($sql);
+    $return_var["code"]=1;
+  }
+
+  $return_json= json_encode($return_var);
+  echo trim($return_json);
+  }
+
+
+
+function unfollow_user($user_id)  //取消关注一个用户
+{
+
+  $user_id = $_SESSION["id"];
+  $follow_user_id = $_REQUEST["user_id"]; 
+
+  /*检查此用户是否已经关注过此对象*/
+  if(!if_follow($follow_user_id)) //查看用户是否已经关注过此用户
+  {
+    $return_var["code"]=0;
+  }
+  else 
+  {
+    $sql = "delete from follow_tables where user_id={$user_id} and follow_user_id = {$follow_user_id} ";
+    mysql_query($sql);
+    $return_var["code"]=1;
+  }
+
+  $return_json= json_encode($return_var);
+  echo trim($return_json);
+}
+
+
+
+
+function show_user_info($username){
   $sql = "select count(*) as t_count from tweets where user_id =  (select id from user_tables where username ='".$username."')";
   $query = mysql_query($sql);
 
