@@ -10,6 +10,7 @@ $sql = "select tweets.id,twitte,tweets.user_id,username,fullname,icon,create_tim
 $tweets =mysql_query($sql);
 $tweets_arr = array();
 while($tweet = mysql_fetch_array($tweets)){
+  $tweet["create_time_int"] = strtotime($tweet["create_time"])*1000;
   $tweets_arr[] = $tweet;
 }
 

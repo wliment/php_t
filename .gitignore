@@ -6,5 +6,5 @@ log/*.pid
 *.gif
 *.png
 *.png
+*.php.swp
 *.swp
-.sass-cache/

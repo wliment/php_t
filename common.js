@@ -31,11 +31,160 @@ $(document).ready(function(){
     pt.user_data = []; //用户条目数据
     //页面属性
     pt.pages={};
+    pt.currentPage="home"; //当前程序停留在哪一页
+    pt.pages["home"] = $("#twitter_list");
     pt.pages["is_render"]={};
     pt.pages["is_render"]["who_to_follow"]= false;
     pt.pages["is_render"]["home"]= false;
     pt.pages["bb"]= $("<div id ='user_item_list'></div>") ;
-   
+    function C(ss){
+          return ss;   
+    }
+    pt.helpers={
+      timeAgo:function (J, H, G) {
+      H = true;
+        var I = pt.helpers.timeStrings();
+      var O = I.words[H ? "longForm" : "shortForm"];
+      var S = new Date;
+      var M = new Date(J);
+      var Q = S - M;
+      var F = 1000,
+          K = F * 60,
+          L = K * 60,
+          P = L * 24,
+          E = P * 7,
+          R, D, N;
+      if (isNaN(Q) || Q < 0) {
+        return ""
+      }
+      if (Q < F * 3) {
+        R = "";
+        D = "now";
+        G = false
+      } else {
+        if (Q < K) {
+          R = Math.floor(Q / F);
+          D = "seconds";
+          G = false
+        } else {
+          if (Q < L) {
+            R = Math.floor(Q / K);
+            D = "minutes";
+            G = false
+          } else {
+            if (Q < P) {
+              R = Math.floor(Q / L);
+              D = "hours";
+              G = false
+            } else {
+              if (Q < P * 365) {
+                N = C("{{date}} {{month}}", {
+                  date: M.getDate(),
+                  month: I.dates.months[M.getMonth()]
+                })
+              } else {
+                N = C("{{date}} {{month}} {{year}}", {
+                  date: M.getDate(),
+                  month: I.dates.months[M.getMonth()],
+                  year: M.getFullYear().toString().slice(2)
+                })
+              }
+            }
+          }
+        }
+      }
+      if (!N) {
+        if (R === 1) {
+          O = O.singular
+        } else {
+          O = O.plural
+        }
+        N = Mustache.to_html(O[D], {
+          one: R,
+          plural_number: R
+        })
+      }
+      if (G) {
+        N += " " + C("at {{time}}", {
+          time: M.toTimeString().split(":").slice(0, 2).join(":")
+        })
+      }
+      return N
+    }
+    ,timeStrings : function () {
+                    if ( !pt.helpers.memo) {
+                      /*twttr.helpers.timeStrings.memo = {*/
+                      pt.helpers.memo={
+                        words: {
+                                 longForm: {
+                                             singular: {
+                                                         now: C("now"),
+                                                         seconds: C("{{one}} second ago"),
+                                                         minutes: C("{{one}} minute ago"),
+                                                         hours: C("{{one}} hour ago"),
+                                                         days: C("{{one}} day ago")
+                                                       },
+                                             plural: {
+                                                       now: C("now"),
+                                                       seconds: C("{{plural_number}} seconds ago"),
+                                                       minutes: C("{{plural_number}} minutes ago"),
+                                                       hours: C("{{plural_number}} hours ago"),
+                                                       days: C("{{plural_number}} days ago")
+                                                     }
+                                           },
+                                 shortForm: {
+                                              singular: {
+                                                          now: C("now"),
+                                                          seconds: C("{{one}} sec"),
+                                                          minutes: C("{{one}} min"),
+                                                          hours: C("{{one}} hr"),
+                                                          days: C("{{one}} day")
+                                                        },
+                                              plural: {
+                                                        now: C("now"),
+                                                        seconds: C("{{plural_number}} sec"),
+                                                        minutes: C("{{plural_number}} mins"),
+                                                        hours: C("{{plural_number}} hrs"),
+                                                        days: C("{{plural_number}} days")
+                                                      }
+                                            }
+                               },
+                        dates: {
+                                 months: [C("Jan"), C("Feb"), C("Mar"), C("Apr"), C("May"), C("Jun"), C("Jul"), C("Aug"), C("Sep"), C("Oct"), C("Nov"), C("Dec")],
+                                 dates: [C("1st"), C("2nd"), C("3rd"), C("4th"), C("5th"), C("6th"), C("7th"), C("8th"), C("9th"), C("10th"), C("11th"), C("12th"), C("13th"), C("14th"), C("15th"), C("16th"), C("17th"), C("18th"), C("19th"), C("20th"), C("21st"), C("22nd"), C("23rd"), C("24th"), C("25th"), C("26th"), C("27th"), C("28th"), C("29th"), C("30th"), C("31st")]
+                               }
+                      }
+                    }
+                    return pt.helpers.memo;
+                    }
+                  };
+
+
+     (function() {
+                var jump = 0, now_time; //jump为一个1-10之间的值为的是不让javascript一下子处理所有的微薄，一次大约处理1/10,如果一下子处理大量的微薄，可能会导致页面卡死
+                function seek_element() {
+                    var element = $(this), time_befor = parseInt(element.attr("data-time"), 10);
+                    if (now_time - time_befor > 86400000) {
+                        element.removeClass("_timestamp").addClass("_old-timestamp")
+                    } else {
+                        var now_time_text = pt.helpers.timeAgo(time_befor, JSON.parse(element.attr("data-long-form") || "false"), JSON.parse(element.attr("data-include-sec") || "false"));
+                        if (now_time_text !== element.text()) {
+                            element.text(now_time_text)
+                        }
+                    }
+                }
+                function process_twitter_time() { //设微薄从发送到现在有多少时间
+                    var page = pt.pages[pt.currentPage];
+                    now_time = +new Date;
+                    page && page.find('span._timestamp[data-time$="' + jump +'000"]').each(seek_element);
+                    setTimeout(process_twitter_time, 2000)
+                     jump++;
+                    jump %= 10;
+                }
+                setTimeout(process_twitter_time, 2000)
+            }());
+
+
     pt.get_users_render = function(){  //得到用户列表，并渲染
       $.ajax( {  
         url: "/php_twitter/who_to_follow.php",  
