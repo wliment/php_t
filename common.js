@@ -37,11 +37,15 @@ $(document).ready(function(){
     pt.pages["is_render"]["who_to_follow"]= false;
     pt.pages["is_render"]["home"]= false;
     pt.pages["bb"]= $("<div id ='user_item_list'></div>") ;
-    function C(ss){
-          return ss;   
+    function C(H,F){
+if (F == null) {
+                return H;
+            }
+return Mustache.to_html(H, F);
     }
-    pt.helpers={
-      timeAgo:function (J, H, G) {
+
+    pt.helpers={ //一些页面辅助公共
+      timeAgo:function (J, H, G) { //计算微薄条目离现在发送已经过了多少时间
       H = true;
         var I = pt.helpers.timeStrings();
       var O = I.words[H ? "longForm" : "shortForm"];
@@ -111,20 +115,20 @@ $(document).ready(function(){
       }
       return N
     }
-    ,timeStrings : function () {
+    ,timeStrings : function () { //模板数据用于mustcache
                     if ( !pt.helpers.memo) {
                       /*twttr.helpers.timeStrings.memo = {*/
                       pt.helpers.memo={
                         words: {
                                  longForm: {
-                                             singular: {
+                                             singular: {//单数
                                                          now: C("now"),
                                                          seconds: C("{{one}} second ago"),
                                                          minutes: C("{{one}} minute ago"),
                                                          hours: C("{{one}} hour ago"),
                                                          days: C("{{one}} day ago")
                                                        },
-                                             plural: {
+                                             plural: { //复数
                                                        now: C("now"),
                                                        seconds: C("{{plural_number}} seconds ago"),
                                                        minutes: C("{{plural_number}} minutes ago"),
@@ -162,10 +166,11 @@ $(document).ready(function(){
 
      (function() {
                 var jump = 0, now_time; //jump为一个1-10之间的值为的是不让javascript一下子处理所有的微薄，一次大约处理1/10,如果一下子处理大量的微薄，可能会导致页面卡死
-                function seek_element() {
+                pt.helpers.seek_element = function() {
                     var element = $(this), time_befor = parseInt(element.attr("data-time"), 10);
                     if (now_time - time_befor > 86400000) {
-                        element.removeClass("_timestamp").addClass("_old-timestamp")
+                        /*element.removeClass("_timestamp").addClass("_old-timestamp")*/
+                        /*element.text("long long ago");*/
                     } else {
                         var now_time_text = pt.helpers.timeAgo(time_befor, JSON.parse(element.attr("data-long-form") || "false"), JSON.parse(element.attr("data-include-sec") || "false"));
                         if (now_time_text !== element.text()) {
@@ -176,7 +181,7 @@ $(document).ready(function(){
                 function process_twitter_time() { //设微薄从发送到现在有多少时间
                     var page = pt.pages[pt.currentPage];
                     now_time = +new Date;
-                    page && page.find('span._timestamp[data-time$="' + jump +'000"]').each(seek_element);
+                    page && page.find('span._timestamp[data-time$="' + jump +'000"]').each(pt.helpers.seek_element);
                     setTimeout(process_twitter_time, 2000)
                      jump++;
                     jump %= 10;
@@ -201,12 +206,13 @@ $(document).ready(function(){
       {
         pt.all_user_count = data.length;
         pt.user_data = data.concat(pt.user_data);
-      $("#userTemplate").tmpl(pt.user_data).hide().prependTo("#user_item_list").show("fast");
+
+      $("#userTemplate").tmpl(pt.user_data).hide().prependTo("#user_item_list").show("fast")  ;
       }
         }  
       });  
 
-    }
+    };
 
 
     pt.get_tweets = function(){ //返回微薄原始json数据
@@ -232,10 +238,21 @@ $(document).ready(function(){
               }
                    }  
            });  
-    }
+
+    };
 
 
+    (function(){ //初始化页面微薄
 
+      pt.get_tweets();
+      var tweets_list_time = $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
+      tweets_list_time.each(function(){
+        var element = $(this);
+        var time_befor = parseInt(element.attr("data-time"), 10);
+        var now_time_text = pt.helpers.timeAgo(time_befor, true, false);
+        element.text(now_time_text);
+      })
+    }());
 
 
 
@@ -243,7 +260,6 @@ $(document).ready(function(){
   {
     pt.get_tweets();//先更新微薄数据 
 
-   $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast");
     if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
       return
 
@@ -256,7 +272,7 @@ $(document).ready(function(){
     else  //如果没有new-tweets-bar 则新建一个
     {
       var tweets_bar_template = $("#template-new-tweets-bar")
-        tweets_bar_template.tmpl(tweets_count_str).prependTo("#twitter_list");
+      tweets_bar_template.tmpl(tweets_count_str).prependTo("#twitter_list");
     }
 
     }
@@ -397,7 +413,7 @@ pt.render_tweets(); //初始化微薄列表
 
   })
 
-$("#tweets_button").click(function(event){  //发送微薄到服务器
+$("#tweets_button").click(function(event){  //发送微薄到服务器,先发送twitter,然后在返回完整数据
 
   var tweet_text = "tweet_text="+$(".twitter-box-editor").val();
   $.ajax({ 
@@ -415,7 +431,7 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器
           return;
     }
     var return_tweet = jQuery.parseJSON(data);
-    $("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast");
+    $("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast").find("._timestamp").text("now");
 
       } 
     }); 

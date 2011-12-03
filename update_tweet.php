@@ -15,6 +15,7 @@ $id =  mysql_insert_id($con);
 $sql = "select tweets.id,twitte,tweets.user_id,username,fullname,icon,create_time from tweets,user_tables where tweets.user_id = user_tables.id and tweets.id={$id}" ;
 $query = mysql_query($sql);
 $return_tweet = mysql_fetch_array($query);
+$return_tweet["create_time_int"] = strtotime($return_tweet["create_time"])*1000;
 $return_json  = json_encode($return_tweet); 
 echo $return_json;
 
