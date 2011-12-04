@@ -3,7 +3,7 @@
 </script>
 
 <script id="movieTemplate" type="text/x-text-jquery-tmpl">
-  <div class ="tweets" id= "tweets_wrap_${id}" data-tweet-id=${id}>
+  <div class ="tweets" id= "tweets_wrap_${id}" data-tweet-id=${id} >
               <div class="tweets_content_box">
                    <div class="tweets_user_icon"> 
                      <img  height="48" width="48" src= ${icon} ></img>
@@ -22,7 +22,20 @@
                             <a href="#" class="tweet-timestamp js-permalink">
                               <span class="_timestamp js-tweet-timestamp" title=${create_time} data-time=${create_time_int} data-long-form="true">ga ga</span>
                             </a>
+                            <!--收藏按钮-->
+                            <span class="tweet-actions js-actions" data-tweet-id="142915138910035969">
+                              <span class="tweet-action action-favorite">
+                                <a href="#" class="favorite-action js-toggle-fav " favorited=${favorited} title="Favorite">
+                                  <span>
+                                    <i></i><b>收藏</b>
+                                  </span>
+                                </a> 
+                              </span>
+                            </span>
+
                           </div>  
+
+
 
                         </div>
                       </div>
@@ -38,7 +51,7 @@
                    <div class="user_icon"> 
                      <img  height="48" width="48" src= ${icon} ></img>
                    </div> 
-
+   
 
                   <div class="user_content">
                           <div class="user_name"> 

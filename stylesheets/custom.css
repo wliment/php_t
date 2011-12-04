@@ -223,6 +223,11 @@ margin-left: 58px;
 position: relative;
 line-height: 15px;
 } 
+.tweets_row {
+display: block;
+position: relative;
+line-height: 15px;
+}
 .tweets_follow_row{
 margin-top:5px;
 }
@@ -718,4 +723,45 @@ margin-left:0;
 text-align:right;
 display:none;
 margin:1px 2px 0 0;
+}
+
+.tweets:hover {
+background-color: rgba(208, 43, 85, 0.1); 
+border-color: rgba(208, 43, 85, 0.15);
+}
+.tweets:hover .tweet-actions,.focused-stream-item .stream-tweet .tweet-actions { /*鼠标经过背景变色*/ 
+visibility:visible;
+}
+.tweets .tweet-actions {
+visibility: hidden;
+}
+
+
+/************************************************************************************************************************/  
+/*收藏按钮样式*/
+.tweet-actions a span i {
+text-indent: -99999px;
+outline: none;
+background: transparent url(/php_twitter/sprite-icons.png) no-repeat;
+width: 15px;
+height: 15px;
+margin: 0 2px 0 2px;
+display: block;
+}
+.tweet-actions a span i {
+display: inline-block;
+vertical-align: baseline;
+margin-bottom: -3px;
+margin-right: 3px;
+position: relative;
+}
+.tweet-actions .favorite-action span i {  /*收藏图标*/
+background-position: -32px 0;
+}
+.tweet-actions .favorite-action:hover span i {
+background-position: -48px 0;
+}
+
+.tweet-actions .unfavorite-action span i, .tweet-actions .unfavorite-action:hover span i {
+background-position: -64px 0;
 }

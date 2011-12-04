@@ -1,4 +1,4 @@
-
+<?php require "function.php" ?>
 <?php 
 session_start();
 $con = mysql_connect("localhost","root","wukong");
@@ -11,6 +11,7 @@ $tweets =mysql_query($sql);
 $tweets_arr = array();
 while($tweet = mysql_fetch_array($tweets)){
   $tweet["create_time_int"] = strtotime($tweet["create_time"])*1000;
+  $tweet["favorited"] = is_fav($tweet["id"])?"true" : "false";
   $tweets_arr[] = $tweet;
 }
 
