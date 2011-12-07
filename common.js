@@ -22,7 +22,7 @@ $(document).ready(function(){
     pt.lastest_tweet_id = 0;//当前用户最近更新的twitter_id
     pt.all_twitter_count=0; //已经更新的用户微薄总数 
     pt.have_update_tweets=0;//已经更新但是还未显示到列表的条目
-    pt.update_tweets_data=[];//后台更新的微薄数据
+    pt.update_tweets_data=[];//后台更新的微薄数据,渲染后清空
     pt.lastest_update_count = 0;//上一次更新的数据
 
 
@@ -247,22 +247,38 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
           success: function(data){  
                           //success code  
                           //
-              var length = data.length;
 
-              if(length == 0 )
+              if(data.length == 0 )
                 return;
               else
               {
-               pt.update_tweets_data = data.concat(pt.update_tweets_data); //将更新的数据和还没有显示的数据合并在一起
+               pt.update_tweets_data = data.concat(pt.update_tweets_data); //还未渲染的数据
                pt.all_twitter_count += data.length; //本次总共更新了多少条
                pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
                pt.lastest_tweet_id = data[0].id;
+               pt.lastest_update_count = data.length; //上次跟新的
               }
                    }  
            });  
 
+
     };
   
+/*******************************************************************************************************************************************/
+//修改tweets的属性,在渲染在页面上
+pt.pre_process_tweets = function(element){
+
+        var time_befor = parseInt(element.attr("data-time"), 10);
+        var now_time_text = pt.helpers.timeAgo(time_befor, true, false);//修改时间
+        element.text(now_time_text);
+        var fav_tweet = element.parent().next().find(".js-toggle-fav");
+        if(fav_tweet.attr("favorited") == "true")
+            {
+                  fav_tweet.toggleClass("unfavorite-action");
+                  fav_tweet.toggleClass("favorite-action");
+            }
+
+};
 /*******************************************************************************************************************************************/
       //初始化页面微薄  修改显示在页面上的属性
     (function(){ 
@@ -270,27 +286,23 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
       pt.get_tweets();
       var tweets_list_time = $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
       tweets_list_time.each(function(){
-        var element = $(this);
-        var time_befor = parseInt(element.attr("data-time"), 10);
-        var now_time_text = pt.helpers.timeAgo(time_befor, true, false);//修改时间
-        element.text(now_time_text);
-        var fav_tweet = $(this).parent().next().find(".js-toggle-fav");
-        if(fav_tweet.attr("favorited") == "true")
-            {
-                  fav_tweet.toggleClass("unfavorite-action");
-                  fav_tweet.toggleClass("favorite-action");
-            }
+        pt.pre_process_tweets($(this));//预处理
+      })
 
-             })
+      pt.have_update_count = 0;
+      pt.lastest_update_count =0 ;
+      pt.have_update_tweets=0;
+
     }());
 
 /*******************************************************************************************************************************************/
 
 
-    pt.render_tweets = function()  //定时从服务器取微薄json条目数据然后在页面上渲染
+    pt.regular_get_tweets = function()  //定时从服务器取微薄json条目数据然后在页面上渲染
   {
     pt.get_tweets();//先更新微薄数据 
 
+    console.log(pt.lastest_update_count);
     if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
       return
 
@@ -305,9 +317,9 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
       var tweets_bar_template = $("#template-new-tweets-bar")
       tweets_bar_template.tmpl(tweets_count_str).prependTo("#twitter_list");
     }
-
-    }
-pt.render_tweets(); //初始化微薄列表
+    };
+  
+ setInterval("pt.regular_get_tweets()", 5000); //每隔5s从服务器取一次数据
 
 
 
@@ -316,14 +328,12 @@ pt.render_tweets(); //初始化微薄列表
   $("body").delegate("#new-tweets-bar", "click", function(){ 
     var new_tweets = pt.update_tweets_data;
     $("#movieTemplate").tmpl(new_tweets).hide().prependTo("#twitter_list").show("fast"); 
-    $(this).remove();    
+    $(this).remove();   //移除new_tweet_bar 
     pt.tweets_data = pt.update_tweets_data.concat(pt.tweets_data);//将更新的数据附加到总列表
     pt.update_tweets_data = [];//清空后台更新的数据
-
-
+    pt.have_update_tweets =0 ;
     });
 
- // setInterval("pt.render_tweets()", 5000);
 
 
 
@@ -336,7 +346,7 @@ pt.render_tweets(); //初始化微薄列表
   $("#tweets_login_popup").toggleClass("hidden");
   $("#log_email").focus();
   event.preventDefault();
-  })
+  });
 
   $("#user_setting_bar").click(function(){ //点击用户名显示下拉菜单
 
@@ -374,9 +384,6 @@ pt.render_tweets(); //初始化微薄列表
         break;
     }
   };
-
-
-
 
 
 
@@ -425,7 +432,7 @@ pt.render_tweets(); //初始化微薄列表
   })
 /************************************************************************************************************************/  
 
-  //鼠标移动到twitter_List上的时候改变背景颜色
+  //鼠标移动到twitter_List上的时候改变背景颜色, 此处已经替换为css实现
   //
 /*
  *  $("[id^=tweets_wrap_]").hover(function(){
@@ -471,7 +478,7 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器,先发送
           return;
     }
     var return_tweet = jQuery.parseJSON(data);
-    $("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast").find("._timestamp").text("now");
+    $("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
 
       } 
     }); 
