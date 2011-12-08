@@ -57,8 +57,22 @@
 <?php }  ?>
 
              <div id="continer">
-                  
 
+
+        <ul class="stream-tabs">
+      <li class="stream-tab stream-tab-tweets active">
+        <a class="tab-text" href="#timeline">时间线</a>
+      </li>
+              <li class="stream-tab stream-tab-favorites">
+          <a class="tab-text" href="#favorites">收藏</a>
+        </li>
+            <li class="stream-tab stream-tab-following">
+        <a class="tab-text" href="#following">你关注的</a>
+      </li>
+            <li class="stream-tab stream-tab-followers">
+        <a class="tab-text" href="#follower">追随你的</a>
+      </li>
+    </ul>
 
                       <?php require "tweets_list.php" ?>
 

@@ -29,14 +29,65 @@ $(document).ready(function(){
     //用户条目相关属性
     pt.all_user_count = 0;   //用户总数量
     pt.user_data = []; //用户条目数据
+    pt.tabhash={
+   "收藏":"favorites", 
+    "你关注的":"following", 
+    "追随你的": "follower",
+    "时间线":"timeline"
+    
+    }
     //页面属性
     pt.pages={};
     pt.currentPage="home"; //当前程序停留在哪一页
-    pt.pages["home"] = $("#twitter_list");
-    pt.pages["is_render"]={};
-    pt.pages["is_render"]["who_to_follow"]= false;
-    pt.pages["is_render"]["home"]= false;
-    pt.pages["bb"]= $("<div id ='user_item_list'></div>") ;
+    pt.pages.home =  $("#twitter_list");
+    pt.pages['is_render']={};
+    pt.pages['is_render']['who_to_follow']= false;
+    pt.pages['is_render']['home']= false;
+    pt.pages['bb']= $("<div id ='user_item_list'></div>") ;
+
+   
+    pt.tab={};//页面的tab对象 
+    pt.tab.pages ={
+      timeline:{load:0},
+      favorites:{load:0},
+      following:{load:0},
+      follower:{load:0} 
+    };
+
+pt.tab.pages.favorites.get_loader = function(){
+$.ajax({
+url:"/php_twitter/user_favorite.php",
+  dataType:'json',
+  async:false,
+  success:function(data){
+      var tweets_list_fav =$("#movieTemplate").tmpl(data).prependTo("#favorited_item_list").show("fast").find("._timestamp");
+      alert(11111);
+      tweets_list_fav.each(function(){
+        pt.pre_process_tweets($(this));
+      });
+  }
+
+});
+}; 
+pt.tab.currentTab="timeline";
+pt.tab.pages.timeline.load = 1;  //默认加载tab timeline
+pt.tab.pages.favorites.page_content = $("<div id ='favorited_item_list'></div>") ; //用户收藏的tweets列表
+pt.tab.pages.timeline.page_content = $("#twitter_list") ; //用户timeline
+
+pt.tab.tab_route = function(tab){  //切换tab函数
+  pt.tab.pages[this.currentTab].page_content.detach(); 
+  pt.tab.currentTab = tab;
+this.pages[tab].page_content.prependTo("#twitter_con"); 
+  if(pt.tab.pages[tab].load === 0) //如果页面没加载过则执行加载渲染
+  {
+     pt.tab.pages[tab].get_loader();      
+     this.pages[tab].load = 1; 
+  }
+
+
+};
+
+
     function C(H,F){
 if (F == null) {
                 return H;
@@ -59,7 +110,7 @@ return Mustache.to_html(H, F);
           E = P * 7,
           R, D, N;
       if (isNaN(Q) || Q < 0) {
-        return ""
+        return "";
       }
       if (Q < F * 3) {
         R = "";
@@ -165,7 +216,8 @@ return Mustache.to_html(H, F);
 /************************************************************************************************************************/  
 
  //更新用户收藏的微薄条目
-pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event) { 
+//pt.pages['home'].delegate(".js-actions .js-toggle-fav", "click", function(event) { 
+$("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event) { 
   var element = this  ; 
   var tweet_id = $(this).closest(".tweets").attr("data-tweet-id");
   var favorite_is = JSON.parse($(this).attr("favorited"))?"unfavorite":"favorite" ; //获得微薄条目是否被收藏的状态
@@ -178,7 +230,8 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
                         $(element).attr("favorited","true");
                  }
 
-     })
+     });
+  event.preventDefault();
 
 
 });
@@ -196,22 +249,23 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
                     } else {
                         var now_time_text = pt.helpers.timeAgo(time_befor, JSON.parse(element.attr("data-long-form") || "false"), JSON.parse(element.attr("data-include-sec") || "false"));
                         if (now_time_text !== element.text()) {
-                            element.text(now_time_text)
+                            element.text(now_time_text);
                         }
                     }
                 }
                 function process_twitter_time() { //设微薄从发送到现在有多少时间
                     var page = pt.pages[pt.currentPage];
-                    now_time = +new Date;
+                    now_time = +new Date();
                     page && page.find('span._timestamp[data-time$="' + jump +'000"]').each(pt.helpers.seek_element);
-                    setTimeout(process_twitter_time, 2000)
+                    setTimeout(process_twitter_time, 2000);
                      jump++;
                     jump %= 10;
                 }
-                setTimeout(process_twitter_time, 2000)
+                setTimeout(process_twitter_time, 2000);
             }());
-
-
+/***************************************************************************************************************/
+//获得用户收藏的tweets,并渲染
+/***************************************************************************************************************/
     pt.get_users_render = function(){  //得到用户列表，并渲染
       $.ajax( {  
         url: "/php_twitter/who_to_follow.php",  
@@ -222,8 +276,7 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
           //
           var length = data.length;
 
-          if(length == 0 )
-        return;
+          if(length === 0 ) {return 1;}
           else
       {
         pt.all_user_count = data.length;
@@ -248,8 +301,8 @@ pt.pages["home"].delegate(".js-actions .js-toggle-fav", "click", function(event)
                           //success code  
                           //
 
-              if(data.length == 0 )
-                return;
+              if(data.length === 0 ) 
+                {return;}
               else
               {
                pt.update_tweets_data = data.concat(pt.update_tweets_data); //还未渲染的数据
@@ -302,15 +355,16 @@ pt.pre_process_tweets = function(element){
   {
     pt.get_tweets();//先更新微薄数据 
 
-    console.log(pt.lastest_update_count);
-    if(pt.lastest_update_count == 0)//如果本次更新数量为0,则不做任何操作
-      return
+    if(pt.lastest_update_count === 0)//如果本次更新数量为0,则不做任何操作
+      {
+      return;
+      }
 
     var tweets_count_str = {tweets_count: pt.have_update_tweets + " 条新信息" };
 
     //判断是否已经有一个tweets_bar 在页面上，有直接更新上面的信息，否则创建一个
     var tweets_bar = $("#new-tweets-bar");
-    if(tweets_bar.length != 0)
+    if(tweets_bar.length !== 0)
       tweets_bar.text(tweets_count_str.tweets_count); 
     else  //如果没有new-tweets-bar 则新建一个
     {
@@ -372,6 +426,10 @@ pt.pre_process_tweets = function(element){
       pt.pages["home"].appendTo("#twitter_con");
         break;
 
+    case "#timeline":
+    case "#favorites":
+        pt.tab.tab_route(location.hash.substring(1));
+        break;
     case "#who_to_follow":
         pt.pages["home"] = $("#twitter_list").detach();
         pt.pages["bb"].appendTo("#twitter_con");
@@ -525,16 +583,22 @@ $.ajax({
  });  
 
 
+$(".stream-tab").click( function  (event) {
+  $(".stream-tabs .stream-tab").each(function(){$(this).removeClass("active")});
+  $(this).toggleClass("active");
+  //event.preventDefault();
 
- //关注莫用户
- function follow_user(user_id){
- }
+})
+
+//关注莫用户
+function follow_user( user_id){
+}
 
 
- //取消关注某用户
- function unfollow_user(user_id){
+//取消关注某用户
+function unfollow_user(user_id){
 
- }
+}
 
 
 
