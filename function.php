@@ -23,6 +23,23 @@ if(isset($_SESSION["id"]))
 }
 }
 
+/**************************************************************************************************************/
+/*
+ *返回用户关注的用户列表(json)
+ */
+  function user_following()
+  {
+    $user_id = $_SESSION["id"];
+    $sql = "select id,username,fullname,icon,user_desc from user_tables where id  in ( select follow_user_id from follow_tables where user_id = ".$_SESSION["id"].") and id <>".$_SESSION["id"];
+    $query = mysql_query($sql);
+    $user_arr = array();
+    while($user = mysql_fetch_array($query)){
+      $user_arr[] = $user;
+    }
+    echo json_encode($user_arr);
+  }
+
+/**************************************************************************************************************/
 function follow_user($follow_user_id)  //关注某个用户
 {
   $user_id = $_SESSION["id"];
