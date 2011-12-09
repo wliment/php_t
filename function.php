@@ -29,7 +29,7 @@ if(isset($_SESSION["id"]))
  */
   function user_following()
   {
-    $user_id = $_SESSION["id"];
+    /*$user_id = $_SESSION["id"];*/
     $sql = "select id,username,fullname,icon,user_desc from user_tables where id  in ( select follow_user_id from follow_tables where user_id = ".$_SESSION["id"].") and id <>".$_SESSION["id"];
     $query = mysql_query($sql);
     $user_arr = array();
@@ -39,6 +39,22 @@ if(isset($_SESSION["id"]))
     echo json_encode($user_arr);
   }
 
+/**************************************************************************************************************/
+/*
+ *  返回用户的关注者列表
+ */
+  function user_follower()
+  {
+
+    $sql = "select id,username,fullname,icon,user_desc from user_tables where id  in ( select user_id from follow_tables where follow_user_id = ".$_SESSION["id"].") and id <>".$_SESSION["id"];
+    $query = mysql_query($sql);
+    $user_arr = array();
+    while($user = mysql_fetch_array($query)){
+      $user["followeach"] = if_follow($user["id"])?"true":"false";
+      $user_arr[] = $user;
+    }
+    echo json_encode($user_arr);
+  }
 /**************************************************************************************************************/
 function follow_user($follow_user_id)  //关注某个用户
 {

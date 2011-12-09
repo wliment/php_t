@@ -55,6 +55,8 @@ $(document).ready(function(){
     };
 
 
+/**************************************************************************************************************/
+
 pt.tab.pages.favorites.get_loader = function(){ //每个tab页面都有一个loder 
 $.ajax({
 url:"/php_twitter/user_favorite.php",
@@ -69,6 +71,9 @@ url:"/php_twitter/user_favorite.php",
 });
 }; 
 
+
+
+/**************************************************************************************************************/
 
 pt.tab.pages.following.get_loader = function(){ //user使用现成的loader 
   $.ajax( {  
@@ -103,7 +108,6 @@ pt.tab.pages.following.get_loader = function(){ //user使用现成的loader
                       $('<b>关注</b>').appendTo($(this));
                     }
 
-
      
      }); 
   }
@@ -111,15 +115,53 @@ pt.tab.pages.following.get_loader = function(){ //user使用现成的loader
       });  
 
     };
+/**************************************************************************************************************/
+
+pt.tab.pages.follower.get_loader = function(){ //每个tab页面都有一个loder 
+$.ajax({
+url:"/php_twitter/user_follower.php",
+  dataType:'json',
+  async:false,
+  success:function(data){
+      var follower_user = $("#userTemplate").tmpl(data).prependTo("#follower_item_list").show("fast").find(".js-action-follow");
+      follower_user.each(function()
+        {
+            if($(this).attr("followeach")==="true")
+                { //查看用户是否为你关注的对象
+                  $(this).removeClass("follow-button");
+                  $(this).addClass("unfollow-button");
+                  $(this).find("span").toggleClass("plus");
+                  $(this).find("span").toggleClass("you-follow");
+                  if($(this).find(".you-follow").length == 1)
+                {
+                  $(this).find("b").remove(); 
+                  $('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo($(this));
+                }
+                  else
+                {
+                  $(this).find(".wrapper").remove();
+                  $('<b>关注</b>').appendTo($(this));
+                }
+
+
+            }
+      });
+
+  }
+});
+}; 
 
 
 
+/**************************************************************************************************************/
 pt.tab.currentTab="timeline";
 pt.tab.pages.timeline.load = 1;  //默认加载tab timeline
 pt.tab.pages.favorites.page_content = $("<div id ='favorited_item_list'></div>") ; //用户收藏的tweets列表
-pt.tab.pages.following.page_content = $("<div id ='following_item_list'></div>") ; //用户收藏的tweets列表
+pt.tab.pages.following.page_content = $("<div id ='following_item_list'></div>") ; //用户正在关注用户列表
+pt.tab.pages.follower.page_content  = $("<div id='follower_item_list'></div>") ; //关注用户的列表
 pt.tab.pages.timeline.page_content = $("#twitter_list") ; //用户timeline
 
+/**************************************************************************************************************/
 pt.tab.tab_route = function(tab){  //切换tab函数
   pt.tab.pages[this.currentTab].page_content.detach(); 
   pt.tab.currentTab = tab;
@@ -133,6 +175,8 @@ this.pages[tab].page_content.appendTo("#twitter_con");
 
 };
 
+
+/**************************************************************************************************************/
 
     function C(H,F){
 if (F == null) {
@@ -298,7 +342,7 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
                             element.text(now_time_text);
                         }
                     }
-                }
+                };
                 function process_twitter_time() { //设微薄从发送到现在有多少时间
                     var page = pt.pages[pt.currentPage];
                     now_time = +new Date();
@@ -386,7 +430,7 @@ pt.pre_process_tweets = function(element){
       var tweets_list_time = $("#movieTemplate").tmpl(pt.update_tweets_data).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
       tweets_list_time.each(function(){
         pt.pre_process_tweets($(this));//预处理
-      })
+      });
 
       pt.have_update_count = 0;
       pt.lastest_update_count =0 ;
@@ -414,7 +458,7 @@ pt.pre_process_tweets = function(element){
       tweets_bar.text(tweets_count_str.tweets_count); 
     else  //如果没有new-tweets-bar 则新建一个
     {
-      var tweets_bar_template = $("#template-new-tweets-bar")
+      var tweets_bar_template = $("#template-new-tweets-bar");
       tweets_bar_template.tmpl(tweets_count_str).prependTo("#twitter_list");
     }
     };
@@ -454,7 +498,7 @@ pt.pre_process_tweets = function(element){
     $(this).toggleClass("user_setting_bar_color");
 
 
-  })
+  });
 
   $("#global-actions li").click(function(){
     $("#global-actions li.active").toggleClass("active new");  
@@ -474,6 +518,7 @@ pt.pre_process_tweets = function(element){
 
     case "#timeline":
     case "#following":
+    case "#follower":
     case "#favorites":
         pt.tab.tab_route(location.hash.substring(1));
         break;
@@ -513,8 +558,8 @@ pt.pre_process_tweets = function(element){
     }
 
       }
-    })
-  })
+    });
+  });
   $("[id^=tweets_wrap_]").click(function(){
     var child = $(this).find(".tweets_username").text();
     if (child == $("#tweets_user_bar").find("#tweets_user_bar_utxt").text().trim())
