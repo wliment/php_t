@@ -391,8 +391,11 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
                           //success code  
                           //
 
-              if(data.length === 0 ) 
-                {return;}
+             if(data.length === 0 ) 
+              { 
+                pt.lastest_update_count = 0; //最近更新微薄为0
+                return;
+              }
               else
               {
                pt.update_tweets_data = data.concat(pt.update_tweets_data); //还未渲染的数据
@@ -403,6 +406,7 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
               }
                    }  
            });  
+
 
 
     };
@@ -473,9 +477,10 @@ pt.pre_process_tweets = function(element){
     var new_tweets = pt.update_tweets_data;
     $("#movieTemplate").tmpl(new_tweets).hide().prependTo("#twitter_list").show("fast"); 
     $(this).remove();   //移除new_tweet_bar 
-    pt.tweets_data = pt.update_tweets_data.concat(pt.tweets_data);//将更新的数据附加到总列表
+    //pt.tweets_data = pt.update_tweets_data.concat(pt.tweets_data);//将更新的数据附加到总列表
+    
     pt.update_tweets_data = [];//清空后台更新的数据
-    pt.have_update_tweets =0 ;
+    pt.have_update_tweets = 0 ;
     });
 
 
