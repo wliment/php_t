@@ -418,14 +418,21 @@ pt.pre_process_tweets = function(element){
         var time_befor = parseInt(element.attr("data-time"), 10);
         var now_time_text = pt.helpers.timeAgo(time_befor, true, false);//修改时间
         element.text(now_time_text);
-        var fav_tweet = element.parent().next().find(".js-toggle-fav");
-        if(fav_tweet.attr("favorited") == "true")
+        var tweet_content = element.parent().parent().prev();
+        var render_url = render_text_to_url(tweet_content.text());//将渲染成<a></a>
+        tweet_content.html(render_url);
+            var fav_tweet = element.parent().next().find(".js-toggle-fav");
+        if(fav_tweet.attr("favorited") == "true") //根据收藏的状态修改tweet的收藏按钮
             {
                   fav_tweet.toggleClass("unfavorite-action");
                   fav_tweet.toggleClass("favorite-action");
             }
 
 };
+function render_text_to_url(text) {
+    var exp = /(\b(https?|ftp|file):\/\/([-A-Z0-9+&@#%?=~_|!:,.;]*)([-A-Z0-9+&@#%?\/=~_|!:,.;]*)[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
+}
 /*******************************************************************************************************************************************/
       //初始化页面微薄  修改显示在页面上的属性
     (function(){ 
@@ -633,7 +640,9 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器,先发送
           return;
     }
     var return_tweet = jQuery.parseJSON(data);
-    $("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
+    var return_tweet =$("#movieTemplate").tmpl(return_tweet).hide().prependTo("#twitter_list").show("fast").find("._timestamp");
+    
+        pt.pre_process_tweets(return_tweet);
 
       } 
     }); 
