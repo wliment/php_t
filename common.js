@@ -21,7 +21,7 @@ $(document).ready(function(){
     //微薄条目相关属性
     pt.lastest_tweet_id = 0;//当前用户最近更新的twitter_id
     pt.all_twitter_count=0; //已经更新的用户微薄总数 
-    pt.have_update_tweets=0;//已经更新但是还未显示到列表的条目
+    pt.have_update_count=0;//已经更新但是还未显示到列表的条目
     pt.update_tweets_data=[];//后台更新的微薄数据,渲染后清空
     pt.lastest_update_count = 0;//上一次更新的数据
 
@@ -380,6 +380,8 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
     };
 
 
+/*******************************************************************************************************************************************/
+
     pt.get_tweets = function(){ //返回微薄原始json数据
 
         $.ajax( {  
@@ -399,8 +401,8 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
               else
               {
                pt.update_tweets_data = data.concat(pt.update_tweets_data); //还未渲染的数据
-               pt.all_twitter_count += data.length; //本次总共更新了多少条
-               pt.have_update_tweets += data.length; //更新未显示的微薄条目数量
+               pt.all_twitter_count += data.length; //更新未显示的微薄条目数量
+               pt.have_update_count += data.length; //本次总共更新了多少条
                pt.lastest_tweet_id = data[0].id;
                pt.lastest_update_count = data.length; //上次跟新的
               }
@@ -460,7 +462,7 @@ pt.pre_process_tweets = function(element){
 
       pt.have_update_count = 0;
       pt.lastest_update_count =0 ;
-      pt.have_update_tweets=0;
+      pt.update_tweets_data= [];
 
     }());
 
@@ -476,7 +478,7 @@ pt.pre_process_tweets = function(element){
       return;
       }
 
-    var tweets_count_str = {tweets_count: pt.have_update_tweets + " 条新信息" };
+    var tweets_count_str = {tweets_count: pt.have_update_count + " 条新信息" };
 
     //判断是否已经有一个tweets_bar 在页面上，有直接更新上面的信息，否则创建一个
     var tweets_bar = $("#new-tweets-bar");
@@ -493,19 +495,21 @@ pt.pre_process_tweets = function(element){
 
 
 
-
+/**************************************************************************************************************/
+ 
 //绑定new_tweet_bar的click 事件
   $("body").delegate("#new-tweets-bar", "click", function(){ 
     var new_tweets = pt.update_tweets_data;
-    $("#movieTemplate").tmpl(new_tweets).hide().prependTo("#twitter_list").show("fast"); 
+    var return_tweet = $("#movieTemplate").tmpl(new_tweets).hide().prependTo("#twitter_list").show("fast").find("._timestamp"); 
+      pt.pre_process_tweets(return_tweet);
     $(this).remove();   //移除new_tweet_bar 
     //pt.tweets_data = pt.update_tweets_data.concat(pt.tweets_data);//将更新的数据附加到总列表
     
     pt.update_tweets_data = [];//清空后台更新的数据
-    pt.have_update_tweets = 0 ;
+    pt.have_update_count= 0 ;
     });
 
-
+/**************************************************************************************************************/
 
 
 
