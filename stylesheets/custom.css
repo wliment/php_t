@@ -882,3 +882,21 @@ background-image: url(/php_twitter/php_twitter_photo/bg.gif);
 }
 
 /**************************************************************************************************************/
+/*tweet内容链接*/
+.pretty-link {
+white-space: nowrap;
+}
+.pretty-link s {
+opacity: .5;
+text-decoration: none;
+}
+.pretty-link b {
+white-space: normal;
+font-weight: normal;
+}
+.tweets_content {
+padding: 0;
+font-family: Arial,"Helvetica Neue",sans-serif;
+line-height: 19px;
+word-wrap: break-word;
+}

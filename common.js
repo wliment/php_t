@@ -410,7 +410,18 @@ $("#twitter_con").delegate(".js-actions .js-toggle-fav", "click", function(event
 
 
     };
-  
+/*******************************************************************************************************************************************/
+
+  //渲染tweet的@xxx 与链接
+pt.render_tweet_content = function(text){
+
+  var url_exp = /(\b(https?|ftp|file):\/\/([-A-Z0-9+&@#%?=~_|!:,.;]*)([-A-Z0-9+&@#%?\/=~_|!:,.;]*)[-A-Z0-9+&@#\/%=~_|])/ig;
+  var user_exp =  /(@)([a-zA-Z][a-zA-Z0-9_]+)/gi;
+  return text.replace(url_exp, "<a href='$1' target='_blank'>$1</a>").replace(user_exp,"<a class='  twitter-atreply pretty-link' data-screen-name='$1' href='/php_twitter/#$2' rel='nofollow'><s>@</s><b>$2</b></a>");
+
+}
+
+
 /*******************************************************************************************************************************************/
 //修改tweets的属性,在渲染在页面上
 pt.pre_process_tweets = function(element){
@@ -418,9 +429,12 @@ pt.pre_process_tweets = function(element){
         var time_befor = parseInt(element.attr("data-time"), 10);
         var now_time_text = pt.helpers.timeAgo(time_befor, true, false);//修改时间
         element.text(now_time_text);
+
+        //tweet内容的渲染
         var tweet_content = element.parent().parent().prev();
-        var render_url = render_text_to_url(tweet_content.text());//将渲染成<a></a>
+        var render_url = pt.render_tweet_content(tweet_content.text());//将link渲染成<a></a>
         tweet_content.html(render_url);
+
             var fav_tweet = element.parent().next().find(".js-toggle-fav");
         if(fav_tweet.attr("favorited") == "true") //根据收藏的状态修改tweet的收藏按钮
             {
@@ -429,10 +443,11 @@ pt.pre_process_tweets = function(element){
             }
 
 };
-function render_text_to_url(text) {
-    var exp = /(\b(https?|ftp|file):\/\/([-A-Z0-9+&@#%?=~_|!:,.;]*)([-A-Z0-9+&@#%?\/=~_|!:,.;]*)[-A-Z0-9+&@#\/%=~_|])/ig;
-    return text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
-}
+
+/*******************************************************************************************************************************************/
+
+
+
 /*******************************************************************************************************************************************/
       //初始化页面微薄  修改显示在页面上的属性
     (function(){ 
