@@ -535,7 +535,7 @@ pt.pre_process_tweets = function(element){
     $("#global-actions li.active").toggleClass("active new");  
     $(this).addClass("active new");
 
-  })
+  });
 
 
   window.onhashchange = function(){
@@ -563,6 +563,8 @@ pt.pre_process_tweets = function(element){
           pt.pages["is_render"]["who_to_follow"]= true;
         }
         break;
+    default:
+        alert(location.hash);
     }
   };
 
@@ -591,26 +593,26 @@ pt.pre_process_tweets = function(element){
       }
     });
   });
-  $("[id^=tweets_wrap_]").click(function(){
-    var child = $(this).find(".tweets_username").text();
-    if (child == $("#tweets_user_bar").find("#tweets_user_bar_utxt").text().trim())
-    return
-    var image_src= $(this).find("img").prop("src");
-  $("#tweets_user_bar").find("#icon").prop("src",image_src);
-  $("#tweets_user_bar").find("#tweets_user_bar_utxt").text(child);
+  //$("[id^=tweets_wrap_]").click(function(){
+    //var child = $(this).find(".tweets_username").text();
+    //if (child == $("#tweets_user_bar").find("#tweets_user_bar_utxt").text().trim())
+    //return
+    //var image_src= $(this).find("img").prop("src");
+  //$("#tweets_user_bar").find("#icon").prop("src",image_src);
+  //$("#tweets_user_bar").find("#tweets_user_bar_utxt").text(child);
 
-  $.ajax({
-    type:"post", 
-    url:"/php_twitter/show_user_info.php",
-    data:"username="+child, 
-    datatype:"json",
-    success:function(data){
+  //$.ajax({
+    //type:"post", 
+    //url:"/php_twitter/show_user_info.php",
+    //data:"username="+child, 
+    //datatype:"json",
+    //success:function(data){
 
-      $("#tweets_user_bar").find("#tweets_user_bar_tcounts").text("信息 "+ data.t_count);
-    }
-  })
+      //$("#tweets_user_bar").find("#tweets_user_bar_tcounts").text("信息 "+ data.t_count);
+    //}
+  //})
 
-  })
+  //})
 /************************************************************************************************************************/  
 
   //鼠标移动到twitter_List上的时候改变背景颜色, 此处已经替换为css实现
@@ -715,16 +717,19 @@ $(".stream-tab").click( function  (event) {
 
 })
 
-//关注莫用户
-function follow_user( user_id){
-}
+/************************************************************************************************************************/
+  /*
+   * 显示用户详细信息面板
+   */
+
+$(".twitter-atreply").click(function(event){
+
+  //$(".details-pane").css("display","block");
+  $(".details-pane").animate({"width":['toggle', 'swing']},"slow");
+event.preventDefault();
+});
 
 
-//取消关注某用户
-function unfollow_user(user_id){
-
-}
-
-
+/************************************************************************************************************************/
 
 });

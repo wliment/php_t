@@ -63,13 +63,28 @@
                       <?php require "tweets_list.php" ?>
 
 
-                <div id="tweets_user_bar">
-                          <p id = "tweets_user_bar_utxt"></p>
-                         <img id = "icon" width ="60px" heigth ="60px" src ="" ></img> 
-                          <p id = "tweets_user_bar_tcounts"></p> 
-                </div>
 
               </div>
+
+
+
+
+<div id="details-pane-outer"  >
+  <div class="details-pane-shell">
+      <div class="details-pane" >
+
+      <div class="inner-pane active">
+    <div class="pane-toolbar pane-built-in">
+            <a class="pane-close toolbar-control" href="#">close <span>×</span></a>
+      <br style="clear: both">
+    </div>
+    <div class="pane-components" style="height: 334px; ">
+
+    </div>
+  </div></div>
+    </div>
+</div>
+
 
 
 

@@ -41,7 +41,7 @@ if(isset($_SESSION["id"]))
 
 /**************************************************************************************************************/
 /*
- *  返回用户的关注者列表
+ *  返回关注用户列表
  */
   function user_follower()
   {
@@ -56,6 +56,7 @@ if(isset($_SESSION["id"]))
     echo json_encode($user_arr);
   }
 /**************************************************************************************************************/
+
 function follow_user($follow_user_id)  //关注某个用户
 {
   $user_id = $_SESSION["id"];
@@ -111,6 +112,54 @@ function show_user_info($username){
   echo $retun_json;
    
 }
+/***********************************************************************************************************************/  
+/*
+ *返回用户tweet的总数
+ */
+  function user_tweets_count($username)
+  {
+
+  $sql = "select count(*) as t_count from tweets where user_id =  (select id from user_tables where username ='{$username}')";
+    
+  $query = mysql_query($sql);
+
+  $counts =mysql_fetch_array($query);
+
+  return $counts["t_count"];
+
+  }
+
+/************************************************************************************************************************/  
+
+/*
+ *返回用户的追随者总数
+ */
+ function user_following_count($username)
+    {
+      // code...
+      $sql = "select count(*) as u_count from follow_tables where follow_user_id =  (select id from user_tables where username ='{$username}')";
+       $query = mysql_query($sql);
+      $counts =mysql_fetch_array($query);
+      return $counts["u_count"];
+        
+    }
+
+
+/************************************************************************************************************************/  
+/*
+ *返回用户关注者总数
+ */
+  
+    function user_follower_count($username)
+    {
+      // code...
+      $sql = "select count(*) as u_count from follow_tables where user_id =  (select id from user_tables where username ='{$username}')";
+       $query = mysql_query($sql);
+      $counts =mysql_fetch_array($query);
+      return $counts["u_count"];
+        
+    }
+
 /************************************************************************************************************************/  
 //为当前用户增加一条微波收藏
 function add_fav_tweet($tweet_id){  
