@@ -76,3 +76,47 @@
         </div>
 </script>
 
+
+
+<!--
+   -点击@xxx弹出的用户显示模板
+   -->
+<script id="user_at_Template" type="text/x-text-jquery-tmpl"> 
+  <div class="component">
+    <div class="profile-pane">
+      <div class="profile-basics clearfix">
+        <div class="profile-text">
+          <a href="/#!/${username}">
+            <img src="${icon}" alt="${username}" width="128" class="thumb" data-user-id="${id}">
+          </a>
+          <div class="profile-info-wrapper">
+            <div class="full-name">
+              <h2>${fullname}</h2>
+            </div>
+            <div class="screen-name-and-location">
+              <a href="/#!/kDolphin" class="screen-name screen-name-kDolphin pill"><strong>@kDolphin</strong> <span>view full profile →</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="user-info">
+          <span class="bio"></span> <a href="http://www.kdolphin.com" target="_blank">http://www.kdolphin.com</a></div>
+        <ul class="user-stats clearfix">
+          <li><a class="user-stats-count user-stats-tweets" href="/#${usename}">${tweet_counts}<span class="user-stats-stat">推文</span></a></li>
+          <li><a class="user-stats-count user-stats-following" href="/#!/${usename}/following">${following}<span class="user-stats-stat">正在关注</span></a></li>
+          <li><a class="user-stats-count user-stats-followers" href="/#!/${usename}/followers">${follower}<span class="user-stats-stat">追随着</span></a></li>
+        </ul>
+      </div>
+        </div><div class="component" did-register-events="true"><div class="profile-actions profile-actions-6088162 clearfix" data-user-id="6088162">
+        <div class="buttons js-actionable-user" data-user-id="6088162">
+          <div class="button user-profile-actions-button js-action-profilemenu" data-user-id="6088162">
+            <span class="user-actions"></span><span class="down-arrow"></span>
+          </div>
+        </div>
+        <div class="follow-state">
+          <div class="button profile-follow-button" data-user-id="6088162">
+            <span class="plus"></span> <strong>Follow</strong>
+          </div>
+        </div>
+  </div></div><hr class="component-spacer"></div>
+  </div>
+</script>

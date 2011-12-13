@@ -725,9 +725,28 @@ $(".stream-tab").click( function  (event) {
 $(".twitter-atreply").click(function(event){
 
   //$(".details-pane").css("display","block");
-  $(".details-pane").animate({"width":['toggle', 'swing']},"slow");
+  var username = $(this).text().substring(1); 
+  $(".details-pane").animate({"width":['toggle', 'swing']},"slow",function(){
+    $.ajax(
+      {
+      url:"/php_twitter/user_status.php",  
+      data: "username="+username ,
+      dataType:"json",
+      async: false,  
+      success:function(data){
+        var a =$("#user_at_Template").tmpl(data);
+        alert(a);
+        $("#user_at_Template").tmpl(data).appendTo(".pane-components-inner");
+
+      }
+      });
+
+      
+  });
+  
 event.preventDefault();
-});
+
+  });
 
 
 /************************************************************************************************************************/

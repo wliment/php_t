@@ -69,21 +69,24 @@
 
 
 
-<div id="details-pane-outer"  >
-  <div class="details-pane-shell">
-      <div class="details-pane" >
+              <div id="details-pane-outer"  >
+                <div class="details-pane-shell">
+                  <div class="details-pane" >
 
-      <div class="inner-pane active">
-    <div class="pane-toolbar pane-built-in">
-            <a class="pane-close toolbar-control" href="#">close <span>×</span></a>
-      <br style="clear: both">
-    </div>
-    <div class="pane-components" style="height: 334px; ">
+                    <div class="inner-pane active">
+                      <div class="pane-toolbar pane-built-in">
+                        <a class="pane-close toolbar-control" href="#">close <span>×</span></a>
+                        <br style="clear: both">
+                      </div>
+                      <div class="pane-components" style="height: 334px; ">
+                        <div class="pane-components-inner">
 
-    </div>
-  </div></div>
-    </div>
-</div>
+                      </div>
+                  </div>
+                    </div>
+                </div>
+              </div>
+              </div>
 
 
 

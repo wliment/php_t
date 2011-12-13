@@ -41,7 +41,7 @@ if(isset($_SESSION["id"]))
 
 /**************************************************************************************************************/
 /*
- *  返回关注用户列表
+ *  返回关注此用户的列表
  */
   function user_follower()
   {
@@ -108,7 +108,6 @@ function show_user_info($username){
   $query = mysql_query($sql);
 
   $temp =mysql_fetch_array($query);
-  $retun_json = json_encode($temp);
   echo $retun_json;
    
 }
@@ -161,7 +160,22 @@ function show_user_info($username){
     }
 
 /************************************************************************************************************************/  
-//为当前用户增加一条微波收藏
+    /*
+     *返回用户的资料
+     */
+    
+      function user_info($username)
+      {
+
+        $sql = "select id,username ,fullname,icon,user_desc from user_tables where username = '{$username}'";
+        $return = mysql_query($sql);
+        if(!$return) 
+          return;
+        return mysql_fetch_array($return);
+
+      }
+/************************************************************************************************************************/  
+//为当前用户增加一条tweets收藏
 function add_fav_tweet($tweet_id){  
   $user_id = $_SESSION["id"];
 
@@ -172,7 +186,7 @@ function add_fav_tweet($tweet_id){
 }
 /************************************************************************************************************************/  
 
-//为当前用户增加去掉一条微波收藏
+//为当前登录用户增加去掉一条微波收藏
 function remove_fav_tweet($tweet_id){  
   $user_id = $_SESSION["id"];
 
@@ -181,6 +195,7 @@ function remove_fav_tweet($tweet_id){
     $return_var["code"] = $return?1:0; 
     echo return_var;
 }
+
 /************************************************************************************************************************/  
    //判断用户是否已经收藏某条tweet
      function is_fav($tweet_id) 
