@@ -1,7 +1,7 @@
+<?php require "mysql_con.php" ?>
 <?php require "function.php" ?>
 <?php 
 session_start();
-$con = mysql_connect("localhost","root","wukong");
 mysql_select_db("php_twitter",$con);
 $from_id = isset($_REQUEST["from_id"]) ?$_REQUEST["from_id"]:0;
 

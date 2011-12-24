@@ -62,13 +62,6 @@
 
                       <?php require "tweets_list.php" ?>
 
-
-
-              </div>
-
-
-
-
               <div id="details-pane-outer"  >
                 <div class="details-pane-shell">
                   <div class="details-pane" >
@@ -87,6 +80,13 @@
                 </div>
               </div>
               </div>
+
+
+              </div>
+
+
+
+
 
 
 

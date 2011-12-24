@@ -678,6 +678,7 @@ $("#tweets_button").click(function(event){  //发送微薄到服务器,先发送
 //$(this).removeClass("follow-button");
 //$(this).addClass("unfollow-button");
 var status;
+alert(1);
 var user_id = $(this).attr("data-user-id");
 var action = ($(this).is(".follow-button")) ? "follow":"unfollow";
 var that = $(this);
@@ -722,7 +723,7 @@ $(".stream-tab").click( function  (event) {
    * 显示用户详细信息面板
    */
 
-$(".twitter-atreply").click(function(event){
+$("body").delegate(".twitter-atreply","click",function(event){
 
   //$(".details-pane").css("display","block");
   var username = $(this).text().substring(1); 
@@ -735,8 +736,27 @@ $(".twitter-atreply").click(function(event){
       async: false,  
       success:function(data){
         var a =$("#user_at_Template").tmpl(data);
-        alert(a);
-        $("#user_at_Template").tmpl(data).appendTo(".pane-components-inner");
+        var user =$("#user_at_Template").tmpl(data).appendTo(".pane-components-inner").find(".profile-follow-button");
+          if(user.attr("followeach")==="true")
+                { //查看用户是否为你关注的对象
+                  user.removeClass("follow-button");
+                  user.addClass("unfollow-button");
+                  user.find("span").toggleClass("plus");
+                  user.find("span").toggleClass("you-follow");
+                  if(user.find(".you-follow").length == 1)
+                {
+                  user.find("b").remove(); 
+                  $('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo(user);
+                }
+                  else
+                {
+                  user.find(".wrapper").remove();
+                  $('<b>关注</b>').appendTo(user);
+                }
+
+
+            }
+
 
       }
       });
@@ -751,4 +771,27 @@ event.preventDefault();
 
 /************************************************************************************************************************/
 
+$("body").delegate(".profile-follow-button","click",function(event){
+            if($(this).attr("followeach")==="true")
+                { //查看用户是否为你关注的对象
+                  $(this).removeClass("follow-button");
+                  $(this).addClass("unfollow-button");
+                  $(this).find("span").toggleClass("plus");
+                  $(this).find("span").toggleClass("you-follow");
+                  if($(this).find(".you-follow").length == 1)
+                {
+                  $(this).find("b").remove(); 
+                  $('<em class="wrapper"> <b class="unfollow">取消关注</b> <b>正在关注</b> </em>').appendTo($(this));
+                }
+                  else
+                {
+                  $(this).find(".wrapper").remove();
+                  $('<b>关注</b>').appendTo($(this));
+                }
+
+
+            }
+});
+
+/************************************************************************************************************************/
 });

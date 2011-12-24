@@ -94,29 +94,35 @@
               <h2>${fullname}</h2>
             </div>
             <div class="screen-name-and-location">
-              <a href="/#!/kDolphin" class="screen-name screen-name-kDolphin pill"><strong>@kDolphin</strong> <span>view full profile →</span></a>
+              <a href="/#!/${username}" class="screen-name  pill"><strong>${username}</strong> <span>查看完整的档案→</span></a>
             </div>
           </div>
         </div>
         <div class="user-info">
-          <span class="bio"></span> <a href="http://www.kdolphin.com" target="_blank">http://www.kdolphin.com</a></div>
+          <span class="bio">${user_desc}</span>
         <ul class="user-stats clearfix">
           <li><a class="user-stats-count user-stats-tweets" href="/#${usename}">${tweet_counts}<span class="user-stats-stat">推文</span></a></li>
           <li><a class="user-stats-count user-stats-following" href="/#!/${usename}/following">${following}<span class="user-stats-stat">正在关注</span></a></li>
           <li><a class="user-stats-count user-stats-followers" href="/#!/${usename}/followers">${follower}<span class="user-stats-stat">追随着</span></a></li>
         </ul>
       </div>
-        </div><div class="component" did-register-events="true"><div class="profile-actions profile-actions-6088162 clearfix" data-user-id="6088162">
-        <div class="buttons js-actionable-user" data-user-id="6088162">
-          <div class="button user-profile-actions-button js-action-profilemenu" data-user-id="6088162">
-            <span class="user-actions"></span><span class="down-arrow"></span>
+      </div>
+
+      <div class="component" >       
+        <div class="buttons js-actionable-user" >
+          <span class="user-actions"></span><span class="down-arrow"></span>
+          <div class="follow-state">
+            <div class="profile-actions">
+              <div class="stream-user-buttons"> 
+                <div class="button profile-follow-button follow-button" data-user-id="${id}" followeach=${followeach}>
+                  <span class="plus"></span> <b>关注</b>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="follow-state">
-          <div class="button profile-follow-button" data-user-id="6088162">
-            <span class="plus"></span> <strong>Follow</strong>
-          </div>
-        </div>
+      </div>
+
   </div></div><hr class="component-spacer"></div>
   </div>
 </script>

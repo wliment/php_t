@@ -161,7 +161,7 @@ function show_user_info($username){
 
 /************************************************************************************************************************/  
     /*
-     *返回用户的资料
+     *返回用户的资料,并查看此用户是否关注当前使用者
      */
     
       function user_info($username)
@@ -171,7 +171,10 @@ function show_user_info($username){
         $return = mysql_query($sql);
         if(!$return) 
           return;
-        return mysql_fetch_array($return);
+        $user = mysql_fetch_array($return);
+        $follow_each = if_follow($user["id"]);
+       $user["followeach"] = $follow_each?"true":"false";
+        return $user;
 
       }
 /************************************************************************************************************************/  

@@ -11,7 +11,7 @@
 $username = $_REQUEST["username"];
 $user_info = array();
 
-$user_info["follwoing"] = user_following_count($username) ;
+$user_info["following"] = user_following_count($username) ;
 $user_info["follower"] = user_follower_count($username);
 $user_info["tweet_counts"] = user_tweets_count($username);
 $user_info = $user_info +  user_info($username) ;

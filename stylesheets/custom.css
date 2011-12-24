@@ -21,6 +21,7 @@ border-radius: 5px
 -webkit-border-radius:   5px; 
 /*border:   1px   solid   #000;*/
 padding: 20px;
+z-index: 0 ;
 
 
 }
@@ -597,7 +598,6 @@ outline:none;
 
 /*follow-button */
 .stream-user-buttons {
-float: right;
 position: relative;
 padding-left: 1em;
 }
@@ -905,7 +905,7 @@ word-wrap: break-word;
 /*用户信息显示面板*/
 #details-pane-outer {
 position: fixed;
-z-index: -11;
+z-index: -11    ;
 left: 0;
 right: 0;
 top: 77px;
@@ -939,6 +939,107 @@ box-shadow: 0 2px 2px rgba(0,0,0,0.3);
 display: none;
 overflow: hidden;
 }
+
+.profile-pane .profile-text {
+overflow: hidden;
+}
+
+
+
+.profile-pane span.bio {
+color: #777;
+font: italic 14px/18px Georgia,Serif;
+margin-bottom:10px;
+}
+
+
+.profile-pane .full-name h2 {
+font-size: 20px;
+font-weight: bold;
+color: #333;
+margin: 0 0 3px 0;
+padding: 0;
+display: inline;
+}
+
+.profile-pane img {
+width: 72px;
+height: 72px;
+}
+.profile-basics img {
+margin-right: 10px;
+float: left;
+}
+.profile-pane div.full-name {
+display: inline-block;
+padding-bottom: 2px;
+width: 230px;
+}
+.profile-info-wrapper {
+float: left;
+width: 230px;
+}
+.profile-info-wrapper * {
+float: left;
+}
+.profile-pane .user-info {
+margin-top: 10px;
+font-size: 13px;
+display: block;
+clear: both;
+}
+.profile-pane .user-info .bio {
+  float:left;
+}
+.profile-pane .user-info ul {
+  float:left;
+ }
+
+.profile-pane .user-info ul li * {
+  display:block;
+}
+.profile-pane .user-stats {
+margin: 10px 0 0 0;
+}
+.user-stats {
+overflow: hidden;
+margin: 6px 0 0;
+}
+.user-stats li:first-child {
+padding-left: 1px;
+border-left: 0;
+}
+
+.user-stats li {
+float: left;
+overflow: hidden;
+border-right: 1px solid rgba(0, 0, 0, 0.1);
+border-left: 1px solid rgba(255, 255, 255, 0.3);
+padding: 0 12px;
+margin-left: 0;
+}
+
+.user-stats-count {
+color: #444;
+display: block;
+font-size: 15px;
+font-weight: bold;
+line-height: 1;
+}
+
+.user-stats-stat {
+font-size: 11px;
+display: block;
+font-weight: normal;
+clear: both;
+padding: 3px 0;
+color: #2FC2EF;
+}
+
+.clearfix {
+display: inline-block;
+}
+
 .details-pane .inner-pane {
 height: 100%;
 margin-left: 10px;
@@ -956,6 +1057,34 @@ margin-left: -10px;
 .details-pane .pane-components {
 overflow-y: auto;
 position: relative;
+}
+.details-pane .profile-actions {
+background: #EDEDED;
+border: none;
+padding-left: 8px;
+padding-right: 8px;
+margin-left:100px;
+}
+.profile-actions {
+padding: 8px 10px;
+background: #F4F4F4;
+-webkit-box-shadow: 0 1px 0 #fff;
+-moz-box-shadow: 0 1px 0 #fff;
+border-radius: 4px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+clear: both;
+display: block;
+margin-left:1px;
+height: 28px;
+}
+
+.js-actionable-user{
+margin-top:38px;
+}
+
+.component .stream-user-buttons {
+float:left !important;
 }
 
 /**************************************************************************************************************/
