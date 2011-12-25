@@ -128,7 +128,7 @@ CREATE TABLE `user_tables` (
 
 LOCK TABLES `user_tables` WRITE;
 /*!40000 ALTER TABLE `user_tables` DISABLE KEYS */;
-INSERT INTO `user_tables` VALUES (1,'wliment','wukong','wliment@gmail.com',0,0,'php_twitter_photo/icon/1.jpg','郑涛','想干啥就干啥，想吃啥就吃啥，想玩啥就玩啥'),(2,'xhd','123456','xhd@qq.com',0,0,'php_twitter_photo/icon/2.jpeg','无名氏','我是无名士'),(3,'zheng','123456','zheng@163.com',0,0,'php_twitter_photo/icon/3.jpeg','小狐狸','我最喜欢的事情就是吃，最不喜欢的事是没的吃'),(4,'god','123456','god@gmail.com',0,0,'php_twitter_photo/icon/4.jpeg','布斯','my life purpose is to change the world!'),(5,'jams','123456','jams@gmail.com',0,0,'php_twitter_photo/icon/1.jpg','miller jams','i like movie,book.sleep');
+INSERT INTO `user_tables` VALUES (1,'wliment','123456','wliment@gmail.com',0,0,'php_twitter_photo/icon/1.jpg','郑涛','想干啥就干啥，想吃啥就吃啥，想玩啥就玩啥'),(2,'xhd','123456','xhd@qq.com',0,0,'php_twitter_photo/icon/2.jpeg','无名氏','我是无名士'),(3,'zheng','123456','zheng@163.com',0,0,'php_twitter_photo/icon/3.jpeg','小狐狸','我最喜欢的事情就是吃，最不喜欢的事是没的吃'),(4,'god','123456','god@gmail.com',0,0,'php_twitter_photo/icon/4.jpeg','布斯','my life purpose is to change the world!'),(5,'jams','123456','jams@gmail.com',0,0,'php_twitter_photo/icon/1.jpg','miller jams','i like movie,book.sleep');
 /*!40000 ALTER TABLE `user_tables` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-12-25 20:24:56
+-- Dump completed on 2011-12-25 20:55:34
