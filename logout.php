@@ -1,3 +1,6 @@
+<head>
+<script type="text/javascript" src="jquery-1.6.4.min.js" charset="utf-8"> </script>
+</head>
 <?php 
 
 
@@ -6,8 +9,8 @@ session_start();
   {
     unset($_SESSION["email"]);
     unset($_SESSION["id"]);
-      echo "你已经成功注销";
-      echo '<a href="/php_twitter/">返回首页</a>';
+    echo "2s后自动跳转";
+    echo "如果页面没有跳转请点击<a href='/php_twitter/sigin.php'>此处</a>"; 
   }
   else
   {
@@ -15,3 +18,16 @@ session_start();
   }
 
 ?>
+
+
+<script>
+$(document).ready(function(){
+
+  function jump(){
+ window.location = "/php_twitter/sigin.php";
+  
+  }
+ setTimeout(jump, 2000);
+
+  })
+    </script>

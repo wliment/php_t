@@ -1,3 +1,9 @@
+
+<?
+session_start();
+if(!isset($_SESSION["email"])) 
+header("Location: /php_twitter/sigin.php");
+ ?>
 <?require "list.php"?>
 <?  require "function.php" ?>
 
@@ -30,9 +36,7 @@
     <ul id="global-actions">
       
         <li id="global-nav-home" data-global-action="home" class="active new"><a href="#">首页</a></li>
-        <li id="global-nav-profile" data-global-action="profile" class=""><a href="#">Profile</a></li>
-        <li id="global-nav-messages" data-global-action="messages"><a href="#">Messages</a></li>
-        <li id="global-nav-who_to_follow" data-global-action="who_to_follow"><a href="#who_to_follow">Who To Follow</a></li>
+        <li id="global-nav-who_to_follow" data-global-action="who_to_follow"><a href="#who_to_follow">可关注的对象</a></li>
       
     </ul>
   </div>
@@ -46,9 +50,9 @@
 </div>
   <div class="dropdown dropdown_hidden">
       <ul class="user-dropdown">
-        <li><a href="/settings/account">设置</a></li>
-        <li><a href="//support.twitter.com">Help</a></li>
-        <li class="last-child"><a href="//support.twitter.com">signout</a></li>
+        <li><a class= "no_implement" href="#">设置</a></li>
+        <li><a class= "no_implement" href="#">帮助</a></li>
+        <li class="last-child"><a href="/php_twitter/logout.php">注销</a></li>
      </ul>
         </div>
 
@@ -68,7 +72,7 @@
 
                     <div class="inner-pane active">
                       <div class="pane-toolbar pane-built-in">
-                        <a class="pane-close toolbar-control" href="#">close <span>×</span></a>
+                        <a class="pane-close toolbar-control" href="#">关闭<span>×</span></a>
                         <br style="clear: both">
                       </div>
                       <div class="pane-components" style="height: 334px; ">
@@ -91,23 +95,7 @@
 
 
 
-<div id = "tweets_login_bar" >
-<?if(isset($_SESSION["email"])){ ?>
-<a  id="tweets_top_logout" class ="ti" href="#" title = <?= isset($_SESSION["email"])?$_SESSION["email"]:" "?>> 
-<?= $_SESSION["email"] ?>
-</a>
-<? } ?>
-<?  $login_status = isset($_SESSION["email"])?"注销":"请登录" ?>
-<a title= <?= $login_status ?> id="tweets_top_login" class="ti" href= <?=$log = isset($_SESSION["email"])?"/php_twitter/logout.php":"/php_twitter/login.php" ?> >
-<?=$login_status  ?>
-</a>
-</div>
-
-<?  require "tweets_login_popup.php" ?>
 
 </body>
 
 </html>
-<script>
-  </script>
-

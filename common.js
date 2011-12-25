@@ -727,6 +727,9 @@ $("body").delegate(".twitter-atreply","click",function(event){
 
   //$(".details-pane").css("display","block");
   var username = $(this).text().substring(1); 
+
+
+$(".pane-components-inner").html("");
   $(".details-pane").animate({"width":['toggle', 'swing']},"slow",function(){
     $.ajax(
       {
@@ -769,6 +772,12 @@ event.preventDefault();
   });
 
 
+
+//关闭按钮
+  $("body").delegate(".pane-close","click",function(){
+    $(".details-pane").css("display","none");
+});
+
 /************************************************************************************************************************/
 
 $("body").delegate(".profile-follow-button","click",function(event){
@@ -791,6 +800,9 @@ $("body").delegate(".profile-follow-button","click",function(event){
 
 
             }
+});
+$(".no_implement").click(function(){
+alert("还没完成次功能");
 });
 
 /************************************************************************************************************************/

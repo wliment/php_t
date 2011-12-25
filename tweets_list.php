@@ -6,7 +6,7 @@
   <div class="page-header home-header">
     <div class="tweet-box">
       <div class="tweet-box-title">
-        <h2>What’s happening?</h2>
+        <h2>新鲜事</h2>
       </div>
       <div class="text-area">
         <div class="text-area-editor"><textarea class="twitter-box-editor" style="width: 500px; height: 74px; "></textarea>
@@ -14,7 +14,7 @@
         <div class="tweet-button-container">
           <span class="tweetbox-counter-tipsy" style="opacity: 0; "></span>
           <input class="tweet-counter" value="140" disabled="disabled">
-          <a href="#" id="tweets_button" class="tweet-button button disabled">Tweet</a>
+          <a href="#" id="tweets_button" class="tweet-button button disabled">发推</a>
         </div>
       </div>
     </div>

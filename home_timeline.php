@@ -1,8 +1,6 @@
 <?php require "mysql_con.php" ?>
 <?php require "function.php" ?>
 <?php 
-session_start();
-mysql_select_db("php_twitter",$con);
 $from_id = isset($_REQUEST["from_id"]) ?$_REQUEST["from_id"]:0;
 
 $sql = "select tweets.id,twitte,tweets.user_id,username,fullname,icon,create_time from tweets,follow_tables,user_tables where tweets.user_id = user_tables.id and tweets.user_id = follow_tables.follow_user_id and tweets.user_id in(select follow_tables.follow_user_id from follow_tables  where user_id={$_SESSION['id']}) and tweets.id >{$from_id} order by tweets.id desc";

@@ -1,0 +1,242 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+margin: 0;
+padding: 0;
+}
+#control {
+position: absolute;
+top: 36%;
+right: 59%;
+}
+#form {
+position: absolute;
+right: 0;
+z-index: 2;
+}
+
+
+#form div.rounded_input input {
+display: block;
+padding: 10px 10px 10px 10px;
+width: 212px;
+font: 14px arial,sans-serif;
+color: #445135;
+border: 0;
+/*background: transparent;*/
+
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+}
+#form div.rounded_input {
+margin-bottom: 10px;
+width: 232px;
+height: 38px;
+/*background: url('http://a.vimeocdn.com/images/world_input.gif') no-repeat top left;*/
+}
+#form div.label {
+padding: 0 0 6px 5px;
+width: 227px;
+font: bold 18px Helvetica Neue,Helvetica,sans-serif;
+color: #999;
+
+
+}
+a, input, textarea, select {
+outline: 0 none;
+}
+body{
+ background-image:url(/php_twitter/php_twitter_photo/Animal.jpg);
+ background-repeat:no-repeat;
+  background-position:center;
+}
+
+.button {
+-moz-border-radius: 4px;
+-khtml-border-radius: 4px;
+-webkit-border-radius: 4px;
+background: #DDD url(/php_twitter/bg-btn.gif) repeat-x 0 0;
+border-radius: 4px;
+border-style: solid;
+border-width: 1px;
+cursor: pointer;
+display: inline-block;
+font: 12px/15px Helvetica Neue,Arial,"Lucida Grande",Sans-serif;
+margin: 0;
+overflow: hidden;
+padding: 5px 9px 5px 9px;
+text-shadow: 0 1px #F0F0F0;
+color: #333!important;
+-moz-box-shadow: 0 1px 0 #f8f8f8;
+-wekbit-box-shadow: 0 1px 0 #f8f8f8;
+box-shadow: 0 1px 0 #f8f8f8;
+float: left;
+}
+div.forgot {
+float: left;
+padding: 0;
+width: 130px;
+line-height: 16px;
+padding-top: 3px;
+margin-left:18px;
+}
+div.forgot a{
+color:white;
+text-decoration:none;
+}
+div.forgot a:hover {
+color: white;
+border-bottom: 1px dotted white;
+}
+/****************************************************************************************************/
+/*Íü¼ÇÃÜÂëµ¯³ö²ã*/
+.forget_password_box {
+background: url(/php_twitter/php_twitter_photo/bg_forget_password.png) no-repeat;
+padding: 30px 0 0 15px;
+width: 429px;
+height: 210px;
+position: absolute;
+top:77%;
+right:50%;
+margin: -90px 0 0 -17px;
+display: none;
+}
+.close_forget_password {
+position: absolute;
+top: 26px;
+right: 15px;
+background: url(/php_twitter/php_twitter_photo/i_close_index.png) no-repeat left center;
+padding-left: 18px;
+}
+.forget_password_box .send_email {
+font-size: 16px;
+text-align: center;
+line-height: 1.6;
+padding: 64px 0 0;
+/*display: none;*/
+}
+
+.fixfloat {
+zoom: 1;
+}
+.forget_password_box h3 {
+font-size: 22px;
+padding-bottom: 20px;
+}
+.forget_password_box .row label {
+width: 90px;
+line-height: 2.5;
+}
+.forget_password_box .row .collection {
+width: 333px;
+}
+.row .collection {
+float: left;
+display: inline;
+width: 335px;
+}
+.user_login .forget_password_box .form_btn {
+padding: 0 0 5px 95px;
+}
+.user_login .form_btn {
+padding: 15px 0 20px 95px;
+}
+
+
+input, button, textarea, select, optgroup, option {
+font-family: inherit;
+font-size: inherit;
+font-style: inherit;
+font-weight: inherit;
+}
+
+  input, button, textarea, select {
+outline: none;
+resize: none;
+}
+
+.forget_password_box .row label {
+width: 90px;
+line-height: 2.5;
+}
+.user_login .row label {
+width: 90px;
+line-height: 1.2;
+}
+
+.row label {
+font-size: 16px;
+float: left;
+display: inline;
+width: 80px;
+height: 30px;
+padding: 3px 0;
+line-height: 38px;
+}
+
+.forget_password_box .row em {
+font-style: normal;
+padding: 5px 0 0 5px;
+display: block;
+}
+
+.row {
+padding-bottom: 13px;
+}
+.forget_password_box .row label {
+width: 92px;
+}
+.bg_i {
+background: url(/php_twitter/php_twitter_photo/btn.png) no-repeat;
+}
+
+
+.input_button {
+border: 0;
+padding: 0;
+width: 97px;
+height: 42px;
+text-align: center;
+background-position: 0 -35px;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+color: white;
+text-shadow: 0 1px 1px #333;
+
+margin-left:7px;
+}
+.forget_password_box .input_button {
+display: block;
+}
+.fixfloat::after {
+content: "";
+display: block;
+clear: both;
+visibility: hidden;
+line-height: 0;
+height: 0;
+}
+
+.row .input_bg {
+background: url(/php_twitter/php_twitter_photo/btn.png) no-repeat 0 -119px;
+padding: 3px 0;
+margin-bottom: 2px;
+}
+input, button, textarea, select {
+outline: none;
+resize: none;
+}
+.row .input_txt {
+width: 168px;
+height:26px;
+margin: 0 12px;
+font-size:15px;
+padding: 8px 0 2px;
+border: 0;
+background: transparent;
+color: #555;
+}
+.form_btn {
+padding: 0px 0 20px 85px;
+}
+/****************************************************************************************************/
+
